@@ -1,7 +1,15 @@
-import type { Config } from "@react-router/dev/config";
+import type { Config } from '@react-router/dev/config'
+import { DEMO_TEAMS } from './app/features/teams/demo-teams.ts'
+import { isDbBuild } from './build-mode.ts'
 
-export default {
-  // Config options...
-  // Server-side render by default, to enable SPA mode set this to `false`
-  ssr: true,
-} satisfies Config;
+export default (isDbBuild
+  ? { ssr: true }
+  : {
+      ssr: false,
+      prerender: [
+        '/',
+        '/bracket',
+        '/teams',
+        ...DEMO_TEAMS.map(team => `/teams/${team.slug}`),
+      ],
+    }) satisfies Config

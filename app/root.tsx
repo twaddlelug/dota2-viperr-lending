@@ -1,3 +1,6 @@
+import '@fontsource-variable/geist-mono'
+import '@fontsource-variable/manrope'
+import '@fontsource-variable/unbounded'
 import {
   isRouteErrorResponse,
   Links,
@@ -5,71 +8,65 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "react-router";
-
-import type { Route } from "./+types/root";
-import "./app.css";
+} from 'react-router'
+import { Rise } from '~/components/effects/rise'
+import { PageHeader } from '~/components/layout/page-header'
+import { ButtonLink } from '~/components/ui/button-link'
+import type { Route } from './+types/root'
+import './app.css'
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
+  { rel: 'icon', href: '/favicon.ico' },
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ru" className="overflow-x-hidden">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#050505" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="overflow-x-clip">
         {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+  let title = 'Ошибка'
+  let details = 'Что-то пошло не так.'
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    if (error.status === 404) title = '404'
+    if (error.status === 403) title = '403'
+    const ownMessage =
+      typeof error.data === 'string' && !error.data.startsWith('Error:')
+        ? error.data
+        : null
     details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
+      ownMessage ||
+      (error.status === 404 ? 'Такой страницы нет.' : error.statusText) ||
+      details
+  } else if (import.meta.env.DEV && error instanceof Error) {
+    details = error.message
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
-  );
+    <PageHeader title={title}>
+      <Rise delay={0.3} className="mt-6 flex flex-col items-center gap-10">
+        <p className="max-w-xl px-6 font-mono text-sm opacity-80">{details}</p>
+        <ButtonLink href="/">На главную</ButtonLink>
+      </Rise>
+    </PageHeader>
+  )
 }
