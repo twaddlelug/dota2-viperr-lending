@@ -1,4 +1,4 @@
-.react-router
+.*
+app/generated
 build
 node_modules
-README.md

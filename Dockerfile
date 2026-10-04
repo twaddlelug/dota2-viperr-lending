@@ -1,22 +1,22 @@
-FROM node:24-alpine AS development-dependencies-env
-COPY . /app
+FROM node:24-alpine AS base
+RUN corepack enable
 WORKDIR /app
-RUN npm ci
 
-FROM node:24-alpine AS production-dependencies-env
-COPY ./package.json package-lock.json /app/
-WORKDIR /app
-RUN npm ci --omit=dev
+FROM base AS deps
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml prisma.config.ts load-env.ts ./
+COPY prisma ./prisma
+RUN pnpm install --frozen-lockfile
 
-FROM node:24-alpine AS build-env
-COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
-WORKDIR /app
-RUN npm run build
+FROM deps AS build
+COPY . .
+ENV DATA_SOURCE=db
+RUN pnpm build
 
-FROM node:24-alpine
-COPY ./package.json package-lock.json /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
-WORKDIR /app
-CMD ["npm", "run", "start"]
+FROM base AS runtime
+ENV NODE_ENV=production PORT=3000 PATH=/app/node_modules/.bin:$PATH
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=build /app/build ./build
+COPY package.json prisma.config.ts load-env.ts ./
+COPY prisma ./prisma
+EXPOSE 3000
+CMD ["sh", "-c", "prisma migrate deploy && react-router-serve ./build/server/index.js"]
