@@ -20,6 +20,15 @@ const serverRoutes = [
     route('steam/callback', 'routes/auth/steam-callback.ts'),
     route('logout', 'routes/auth/logout.ts'),
   ]),
+
+  route('admin', 'routes/admin/layout.tsx', [
+    index('routes/admin/overview.tsx'),
+    route('servers', 'routes/admin/servers.tsx'),
+    route('teams', 'routes/admin/teams.tsx'),
+    route('teams/:teamId', 'routes/admin/team.tsx'),
+    route('bracket', 'routes/admin/bracket.tsx'),
+    route('settings', 'routes/admin/settings.tsx'),
+  ]),
 ]
 
 export default [
