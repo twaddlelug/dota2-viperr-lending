@@ -1,7 +1,14 @@
-.DS_Store
-.env
-/node_modules/
+node_modules
+/build
+/.react-router
+/app/generated
 
-# React Router
-/.react-router/
-/build/
+.env
+*.local
+*.log
+
+.DS_Store
+Thumbs.db
+.idea
+.vscode/*
+!.vscode/extensions.json
