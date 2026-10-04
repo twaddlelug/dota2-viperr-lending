@@ -31,12 +31,13 @@ export default function TeamsPage({ loaderData }: Route.ComponentProps) {
 
       <section className="container mx-auto px-6 pt-6 md:px-8">
         {teams.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-5 lg:grid-cols-2">
             {teams.map(team => (
               <TeamCard
                 key={team.id}
                 team={team}
                 status={<StandingLabel standing={standings[team.slug]} />}
+                eliminated={standings[team.slug]?.state === 'eliminated'}
               />
             ))}
           </div>
