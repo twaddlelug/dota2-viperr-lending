@@ -20,6 +20,7 @@ const serverRoutes = [
     route('steam/callback', 'routes/auth/steam-callback.ts'),
     route('logout', 'routes/auth/logout.ts'),
   ]),
+  route('media/*', 'routes/media.ts'),
 
   route('admin', 'routes/admin/layout.tsx', [
     index('routes/admin/overview.tsx'),

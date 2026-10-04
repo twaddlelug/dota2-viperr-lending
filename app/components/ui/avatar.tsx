@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { cn } from '~/lib/cn'
+import { imageSrc } from '~/lib/media'
 
 const SIZES = {
   '2xs': 'h-[18px] w-[18px] text-[5px]',
@@ -36,7 +37,7 @@ export function Avatar({
   className?: string
 }) {
   const [brokenSrc, setBrokenSrc] = useState<string>()
-  const url = src
+  const url = src && imageSrc(src)
   const classes = cn(
     'shrink-0 overflow-hidden border border-line',
     shape === 'circle' ? 'rounded-full' : 'rounded-[28%]',
