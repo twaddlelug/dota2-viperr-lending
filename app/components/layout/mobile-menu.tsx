@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { NavLink } from 'react-router'
-import { ViperrMark } from '~/components/ui/viperr-mark'
+import { DotaMark } from '~/components/ui/dota-mark'
 import type { NavItem } from '~/config/site'
 import { cn } from '~/lib/cn'
 import { useModalDialog } from '~/lib/use-modal-dialog'
@@ -22,7 +22,7 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
       aria-label="Меню"
       className="mobile-menu fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none flex-col justify-center bg-bg p-8 text-white open:flex"
     >
-      <ViperrMark className="absolute top-5 left-8 h-7 w-8" />
+      <DotaMark className="absolute top-5 left-8 h-8 w-8" />
       <button
         type="button"
         aria-label="Закрыть меню"

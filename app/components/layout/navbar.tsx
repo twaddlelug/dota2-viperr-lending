@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router'
 import { ShineText } from '~/components/effects/shine-text'
 import { SpotlightCard } from '~/components/effects/spotlight-card'
-import { ViperrMark } from '~/components/ui/viperr-mark'
+import { DotaMark } from '~/components/ui/dota-mark'
 import type { NavItem } from '~/config/site'
 import { cn } from '~/lib/cn'
 import { MobileMenu } from './mobile-menu'
@@ -17,10 +17,10 @@ export function Navbar({ links }: { links: NavItem[] }) {
         <div className="nav-panel relative flex items-center justify-between rounded-[16px] bg-black/60 px-6 py-5 sm:rounded-[32px]">
           <Link
             to="/"
-            aria-label="Viperr — на главную"
+            aria-label="На главную"
             className="transition-opacity hover:opacity-80"
           >
-            <ViperrMark className="h-7 w-8" />
+            <DotaMark className="h-8 w-8" />
           </Link>
 
           <nav
