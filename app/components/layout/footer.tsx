@@ -91,9 +91,9 @@ export function Footer({ discordUrl }: { discordUrl: string }) {
 
       <p
         aria-hidden
-        className="mx-auto mt-20 -mb-[0.06em] w-fit -skew-x-12 select-none whitespace-nowrap px-[0.08em] font-black font-display text-[calc((100vw-3rem)/4.9)] text-metal leading-none sm:text-[calc((100vw-5rem)/4.9)] lg:mt-28 lg:text-[calc((100vw-7rem)/4.9)]"
+        className="mx-auto mt-20 -mb-[0.06em] w-fit -skew-x-12 select-none whitespace-nowrap px-[0.08em] font-black font-display text-[calc((100vw-3rem)/6.8)] text-metal leading-none sm:text-[calc((100vw-5rem)/6.8)] lg:mt-28 lg:text-[calc((100vw-7rem)/6.8)]"
       >
-        VIPERR
+        SERVER TI
       </p>
     </footer>
   )
