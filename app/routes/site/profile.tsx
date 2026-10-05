@@ -7,6 +7,7 @@ import { ButtonLink } from '~/components/ui/button-link'
 import { SITE } from '~/config/site'
 import { isAdmin, requireUser } from '~/features/auth/session.server'
 import { positionWithNumber, toPosition } from '~/features/teams/team'
+import { cn } from '~/lib/cn'
 import type { Route } from './+types/profile'
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -42,18 +43,28 @@ export const meta = () => [
   { name: 'robots', content: 'noindex' },
 ]
 
-const STEAM_MESSAGES: Record<string, string> = {
-  linked: 'Steam привязан.',
-  failed: 'Не удалось подтвердить вход в Steam, попробуйте ещё раз.',
-  taken: 'Этот Steam-аккаунт уже привязан к другому игроку.',
+type Notice = { text: string; failed?: boolean }
+
+const JOINED: Notice = { text: 'Вы в составе! Осталось привязать Steam.' }
+
+const STEAM_NOTICES: Record<string, Notice> = {
+  linked: { text: 'Steam привязан.' },
+  failed: {
+    text: 'Не удалось подтвердить вход в Steam, попробуйте ещё раз.',
+    failed: true,
+  },
+  taken: {
+    text: 'Этот Steam-аккаунт уже привязан к другому игроку.',
+    failed: true,
+  },
 }
 
 export default function ProfilePage({ loaderData }: Route.ComponentProps) {
   const { discord, steam, roster } = loaderData
   const [params] = useSearchParams()
   const notice = params.get('joined')
-    ? 'Вы в составе! Осталось привязать Steam.'
-    : STEAM_MESSAGES[params.get('steam') ?? '']
+    ? JOINED
+    : STEAM_NOTICES[params.get('steam') ?? '']
 
   return (
     <>
@@ -61,8 +72,15 @@ export default function ProfilePage({ loaderData }: Route.ComponentProps) {
 
       <section className="container mx-auto max-w-3xl space-y-5 px-6 pt-6">
         {notice && (
-          <p className="rounded-xl border border-accent/40 bg-accent/10 px-5 py-3 text-sm">
-            {notice}
+          <p
+            className={cn(
+              'rounded-xl border px-5 py-3 text-sm',
+              notice.failed
+                ? 'border-accent/40 bg-accent/10'
+                : 'border-success/40 bg-success/10'
+            )}
+          >
+            {notice.text}
           </p>
         )}
 

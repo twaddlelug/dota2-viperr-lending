@@ -12,10 +12,10 @@ const SIZES = {
 }
 
 const FALLBACKS = [
-  'from-[#1d3b21] to-[#0b140c]',
+  'from-[#3b1d1b] to-[#140b0b]',
   'from-[#2a2a2a] to-[#0f0f0f]',
-  'from-[#23402f] to-[#0c1510]',
-  'from-[#33361f] to-[#11120a]',
+  'from-[#40231f] to-[#150c0b]',
+  'from-[#362a26] to-[#120e0d]',
 ]
 
 const hash = (value: string) =>

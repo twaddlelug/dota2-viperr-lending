@@ -7,18 +7,20 @@
   --font-display: "Unbounded Variable", sans-serif;
 
   --color-bg: #050505;
-  --color-surface: #0c0d0c;
+  --color-surface: #0d0c0c;
   --color-line: rgb(255 255 255 / 0.12);
-  --color-muted: #8f918f;
+  --color-muted: #919090;
   --color-text: #ffffff;
-  --color-accent: #7cf04a;
-  --color-accent-hover: #9bff70;
+  --color-accent: #ef4b31;
+  --color-accent-hover: #ff6a4f;
+  --color-brand: #bf2e1a;
+  --color-success: #5fd068;
   --color-discord: #8c9eff;
 
-  --color-stage-edge: #030403;
-  --color-stage-glow: #0c2810;
-  --color-footer-glow: #061509;
-  --color-footer-end: #0b2a10;
+  --color-stage-edge: #050303;
+  --color-stage-glow: #2e0905;
+  --color-footer-glow: #170504;
+  --color-footer-end: #330a06;
 
   --color-success-surface: #0d1a0d;
   --color-danger-surface: #1a0d0d;

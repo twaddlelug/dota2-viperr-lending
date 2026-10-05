@@ -76,7 +76,7 @@ export function TeamsTable({ teams }: { teams: AdminTeamSummary[] }) {
                           team.players.some(p => p.position === slot)
                             ? slot === null
                               ? 'bg-white/50'
-                              : 'bg-accent'
+                              : 'bg-success'
                             : 'bg-white/10'
                         )}
                       />
@@ -106,7 +106,7 @@ function Progress({ value, total }: { value: number; total: number }) {
     <span
       className={cn(
         'font-mono',
-        total > 0 && value === total ? 'text-accent' : 'text-muted'
+        total > 0 && value === total ? 'text-success' : 'text-muted'
       )}
     >
       {value}/{total}

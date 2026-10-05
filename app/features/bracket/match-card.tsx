@@ -98,7 +98,7 @@ function SlotRow({
         <span
           className={cn(
             'font-mono',
-            result === 'won' ? 'font-bold text-accent' : 'text-muted'
+            result === 'won' ? 'font-bold text-white' : 'text-muted'
           )}
         >
           {slot.score ?? '–'}

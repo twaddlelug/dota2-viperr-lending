@@ -1,7 +1,7 @@
 import { cn } from '~/lib/cn'
 
 const TONES = {
-  green: 'border-accent/30 bg-accent/10 text-accent',
+  green: 'border-success/30 bg-success/10 text-success',
   yellow: 'border-amber-400/30 bg-amber-400/10 text-amber-300',
   gray: 'border-line bg-white/5 text-muted',
   red: 'border-red-500/30 bg-red-500/10 text-red-300',

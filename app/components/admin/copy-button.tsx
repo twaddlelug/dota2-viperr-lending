@@ -27,7 +27,7 @@ export function CopyButton({
         setTimeout(() => setCopied(false), 1500)
       }}
     >
-      {copied ? <Check className="text-accent" /> : <Copy />}
+      {copied ? <Check className="text-success" /> : <Copy />}
       {size !== 'icon' && (copied ? 'Скопировано' : label)}
     </Button>
   )

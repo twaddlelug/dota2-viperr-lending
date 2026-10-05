@@ -1,9 +1,9 @@
 import { Color, Mesh, Program, Renderer, Triangle } from 'ogl'
 import { useEffect, useRef } from 'react'
 
-const DESKTOP_STOPS = ['#14421a', '#030403', '#0f3313']
-const MOBILE_STOPS = ['#14421a', '#08200b', '#0f3313']
-const GLOW_COLOR = '#3fb83c'
+const DESKTOP_STOPS = ['#4a1410', '#050303', '#3a0e0b']
+const MOBILE_STOPS = ['#4a1410', '#200806', '#3a0e0b']
+const GLOW_COLOR = '#d8432c'
 const MIN_CANVAS_WIDTH = 800
 
 const toRgb = (hex: string) => {

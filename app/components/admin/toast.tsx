@@ -43,12 +43,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             className={cn(
               'flex items-center gap-2 rounded-xl border px-4 py-3 text-sm shadow-2xl backdrop-blur',
               toast.kind === 'success'
-                ? 'border-accent/40 bg-success-surface/95'
+                ? 'border-success/40 bg-success-surface/95'
                 : 'border-red-500/40 bg-danger-surface/95'
             )}
           >
             {toast.kind === 'success' ? (
-              <Check className="h-4 w-4 text-accent" />
+              <Check className="h-4 w-4 text-success" />
             ) : (
               <X className="h-4 w-4 text-red-400" />
             )}

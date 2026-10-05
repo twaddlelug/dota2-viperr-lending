@@ -91,7 +91,7 @@ function StatCards({ stats }: { stats: LoaderData['stats'] }) {
           >
             <p className="text-muted text-xs">{card.label}</p>
             <p className="mt-2 font-bold font-display text-2xl">
-              <span className={cn(complete && 'text-accent')}>
+              <span className={cn(complete && 'text-success')}>
                 {card.value}
               </span>
               {card.total !== undefined && (
