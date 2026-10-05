@@ -1,4 +1,5 @@
 import { DEMO_TEAMS } from '~/features/teams/demo-teams'
+import { teamLogo } from '~/features/teams/team'
 import { MatchStatus as DbMatchStatus } from '~/generated/prisma/enums'
 import { type ActionResult, fail, ok } from '~/lib/action-result'
 import { db } from '~/lib/db.server'
@@ -40,7 +41,14 @@ export async function getBracket(): Promise<Bracket> {
   const [teams, matches] = await Promise.all([
     db().team.findMany({
       where: { seed: { not: null } },
-      select: { slug: true, name: true, tag: true, logoUrl: true, seed: true },
+      select: {
+        slug: true,
+        name: true,
+        tag: true,
+        logoUrl: true,
+        seed: true,
+        server: { select: { iconUrl: true } },
+      },
     }),
     db().match.findMany(),
   ])
@@ -52,7 +60,7 @@ export async function getBracket(): Promise<Bracket> {
           slug: team.slug,
           name: team.name,
           tag: team.tag,
-          logoUrl: team.logoUrl ?? undefined,
+          logoUrl: teamLogo(team),
         }
       : null
   })

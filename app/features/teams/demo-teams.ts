@@ -39,7 +39,7 @@ const team = (
   seed: number,
   names: [string, string, string, string, string],
   captain: Position,
-  substitute?: string
+  coach?: string
 ): Team => ({
   id: slug,
   slug,
@@ -51,7 +51,7 @@ const team = (
     const position = (i + 1) as Position
     return player(slug, nickname, position, position === captain)
   }),
-  substitute: substitute ? player(slug, substitute, null) : undefined,
+  coach: coach ? player(slug, coach, null) : undefined,
 })
 
 export const DEMO_TEAMS: Team[] = [

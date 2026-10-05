@@ -5,7 +5,7 @@ import { ButtonLink } from '~/components/ui/button-link'
 import { SITE } from '~/config/site'
 import { getCurrentUser, requireUser } from '~/features/auth/session.server'
 import { claimInvite, getInvite } from '~/features/teams/roster.server'
-import { positionWithNumber, toPosition } from '~/features/teams/team'
+import { positionWithNumber, teamLogo, toPosition } from '~/features/teams/team'
 import type { Route } from './+types/invite'
 
 const INVITE_GONE = 'Приглашение не найдено или уже использовано'
@@ -25,7 +25,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
       team: {
         name: invite.team.name,
         tag: invite.team.tag,
-        logoUrl: invite.team.logoUrl,
+        logoUrl: teamLogo(invite.team),
       },
       server: invite.team.server.name,
     },
@@ -76,7 +76,7 @@ export default function InvitePage({
       <section className="container mx-auto max-w-xl px-6 pt-6">
         <div className="rounded-2xl border border-line bg-surface p-8 text-center">
           <Avatar
-            src={invite.team.logoUrl ?? undefined}
+            src={invite.team.logoUrl}
             name={invite.team.name}
             initials={invite.team.tag}
             size="lg"

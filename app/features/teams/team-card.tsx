@@ -2,12 +2,13 @@ import { Link } from 'react-router'
 import { Avatar } from '~/components/ui/avatar'
 import { CornerFrame } from '~/components/ui/corner-frame'
 import { cn } from '~/lib/cn'
+import { SlotMarker } from './slot-marker'
 import {
   type Player,
+  POSITIONS,
   type Position,
   playerAvatar,
   positionLabel,
-  ROSTER_SLOTS,
   type Team,
 } from './team'
 
@@ -20,14 +21,6 @@ export function TeamCard({
   status: React.ReactNode
   eliminated?: boolean
 }) {
-  const lineup = ROSTER_SLOTS.map(position => ({
-    position,
-    player:
-      position === null
-        ? team.substitute
-        : team.players.find(player => player.position === position),
-  }))
-
   return (
     <Link
       to={`/teams/${team.slug}`}
@@ -79,25 +72,28 @@ export function TeamCard({
 
       <ol
         aria-label="Состав"
-        className="grid flex-1 grid-cols-3 gap-px border-line border-y bg-line sm:grid-cols-6"
+        className="grid flex-1 grid-cols-5 gap-px border-line border-y bg-line"
       >
-        {lineup.map(({ position, player }) => (
+        {POSITIONS.map(position => (
           <LineupSlot
-            key={position ?? 'substitute'}
+            key={position}
             position={position}
-            player={player}
+            player={team.players.find(player => player.position === position)}
           />
         ))}
       </ol>
 
-      <div className="flex items-center justify-between gap-4 px-5 py-3 sm:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-3 sm:px-6">
         {status}
-        <span
-          aria-hidden
-          className="text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent"
-        >
-          →
-        </span>
+        <div className="flex items-center gap-5">
+          {team.coach && <Coach coach={team.coach} />}
+          <span
+            aria-hidden
+            className="text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent"
+          >
+            →
+          </span>
+        </div>
       </div>
     </Link>
   )
@@ -107,14 +103,12 @@ function LineupSlot({
   position,
   player,
 }: {
-  position: Position | null
+  position: Position
   player: Player | undefined
 }) {
   return (
-    <li className="flex flex-col items-center bg-surface px-2 pt-4 pb-3 text-center">
-      <span className="font-black font-display text-metal text-xl leading-none">
-        {position ?? 'S'}
-      </span>
+    <li className="flex flex-col items-center bg-surface px-1 pt-4 pb-3 text-center sm:px-2">
+      <SlotMarker position={position} className="text-lg sm:text-xl" />
       <div className="relative mt-3">
         {player ? (
           <Avatar
@@ -122,9 +116,10 @@ function LineupSlot({
             name={player.nickname}
             size="md"
             shape="circle"
+            className="h-9 w-9 text-[10px] sm:h-12 sm:w-12 sm:text-xs"
           />
         ) : (
-          <span className="block h-12 w-12 rounded-full border border-line border-dashed" />
+          <span className="block h-9 w-9 rounded-full border border-line border-dashed sm:h-12 sm:w-12" />
         )}
         {player?.captain && (
           <span className="absolute -right-1 -bottom-1 rounded-full bg-accent px-1.5 font-bold text-[10px] text-black leading-4">
@@ -135,15 +130,32 @@ function LineupSlot({
       </div>
       <span
         className={cn(
-          'mt-2 w-full break-words font-semibold text-sm leading-tight',
+          'mt-2 w-full break-words font-semibold text-xs leading-tight sm:text-sm',
           !player && 'text-muted'
         )}
       >
         {player?.nickname ?? '—'}
       </span>
-      <span className="mt-1 text-[11px] text-muted uppercase leading-tight tracking-wider">
+      <span className="mt-1 text-[10px] text-muted uppercase leading-tight tracking-wider sm:text-[11px]">
         {positionLabel(position)}
       </span>
     </li>
+  )
+}
+
+function Coach({ coach }: { coach: Player }) {
+  return (
+    <span className="flex items-center gap-2 text-xs">
+      <span className="text-muted uppercase tracking-wider">
+        {positionLabel(null)}
+      </span>
+      <Avatar
+        src={playerAvatar(coach)}
+        name={coach.nickname}
+        size="xs"
+        shape="circle"
+      />
+      <span className="font-semibold">{coach.nickname}</span>
+    </span>
   )
 }

@@ -35,7 +35,7 @@ export function PlayerForm({
               p => p.position === slot && p.id !== player.id
             )
             return (
-              <option key={slot ?? 'sub'} value={slot ?? ''}>
+              <option key={slot ?? 'coach'} value={slot ?? ''}>
                 {slot ? `${slot} · ` : ''}
                 {positionLabel(slot)}
                 {occupant ? ` — ⇄ ${occupant.nickname}` : ''}

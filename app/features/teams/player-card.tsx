@@ -1,18 +1,19 @@
 import { siDiscord, siSteam } from 'simple-icons'
 import { Avatar } from '~/components/ui/avatar'
 import { BrandIcon } from '~/components/ui/brand-icon'
+import { cn } from '~/lib/cn'
+import { SlotMarker } from './slot-marker'
 import { type Player, playerAvatar, positionLabel } from './team'
 
 export function PlayerCard({ player }: { player: Player }) {
-  const substitute = player.position === null
+  const isCoach = player.position === null
 
   return (
     <div
-      className={
-        substitute
-          ? 'rounded-2xl border border-line border-dashed p-5'
-          : 'rounded-2xl border border-line bg-surface p-5'
-      }
+      className={cn(
+        'rounded-2xl border border-line p-5',
+        isCoach ? 'border-dashed' : 'bg-surface'
+      )}
     >
       <div className="flex items-start justify-between">
         <Avatar
@@ -21,9 +22,7 @@ export function PlayerCard({ player }: { player: Player }) {
           size="lg"
           shape="circle"
         />
-        <span className="font-black font-display text-3xl text-metal">
-          {player.position ?? 'S'}
-        </span>
+        <SlotMarker position={player.position} className="text-3xl" />
       </div>
 
       <p className="mt-4 truncate font-semibold text-lg">{player.nickname}</p>

@@ -3,7 +3,7 @@ import { type ActionResult, fail, ok } from '~/lib/action-result'
 import { db, isUniqueViolation } from '~/lib/db.server'
 import { DEMO_TEAMS } from './demo-teams'
 import { slugify } from './slug'
-import { type Player, type Team, toPosition } from './team'
+import { type Player, type Team, teamLogo, toPosition } from './team'
 
 const teamInclude = {
   server: true,
@@ -37,7 +37,7 @@ function toTeam(row: TeamRow): Team {
     slug: row.slug,
     name: row.name,
     tag: row.tag,
-    logoUrl: row.logoUrl ?? undefined,
+    logoUrl: teamLogo(row),
     seed: row.seed ?? undefined,
     server: {
       id: row.server.id,
@@ -46,7 +46,7 @@ function toTeam(row: TeamRow): Team {
       inviteUrl: row.server.inviteUrl ?? undefined,
     },
     players: players.filter(player => player.position !== null),
-    substitute: players.find(player => player.position === null),
+    coach: players.find(player => player.position === null),
   }
 }
 

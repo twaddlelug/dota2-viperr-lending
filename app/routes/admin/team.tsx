@@ -18,7 +18,7 @@ import {
   unlinkPlayer,
   updatePlayer,
 } from '~/features/teams/roster.server'
-import { toPosition } from '~/features/teams/team'
+import { teamLogo, toPosition } from '~/features/teams/team'
 import {
   type AdminPlayer,
   deleteTeam,
@@ -98,7 +98,7 @@ export default function AdminTeam({ loaderData }: Route.ComponentProps) {
         title={
           <span className="flex items-center gap-4">
             <Avatar
-              src={team.logoUrl ?? undefined}
+              src={teamLogo(team)}
               name={team.name}
               initials={team.tag}
               size="md"

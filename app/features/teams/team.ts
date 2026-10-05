@@ -32,10 +32,12 @@ export type Team = {
   server: Server
   seed?: number
   players: Player[]
-  substitute?: Player
+  coach?: Player
 }
 
-export const ROSTER_SLOTS: Array<Position | null> = [1, 2, 3, 4, 5, null]
+export const POSITIONS: Position[] = [1, 2, 3, 4, 5]
+
+export const ROSTER_SLOTS: Array<Position | null> = [...POSITIONS, null]
 
 const POSITION_LABELS: Record<Position, string> = {
   1: 'Carry',
@@ -52,7 +54,7 @@ export const toPosition = (value: unknown): Position | null =>
   isPosition(value) ? value : null
 
 export const positionLabel = (position: Position | null) =>
-  position === null ? 'Запасной' : POSITION_LABELS[position]
+  position === null ? 'Тренер' : POSITION_LABELS[position]
 
 export const positionWithNumber = (position: Position | null) =>
   position === null
@@ -61,3 +63,8 @@ export const positionWithNumber = (position: Position | null) =>
 
 export const playerAvatar = (player: Player) =>
   player.discord?.avatarUrl ?? player.steam?.avatarUrl
+
+export const teamLogo = (team: {
+  logoUrl: string | null
+  server: { iconUrl: string | null }
+}) => team.logoUrl ?? team.server.iconUrl ?? undefined

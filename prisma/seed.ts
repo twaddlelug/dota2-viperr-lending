@@ -25,9 +25,7 @@ async function main() {
     const created = await db.server.create({ data: { name: server.name } })
     if (!team) continue
 
-    const players = team.substitute
-      ? [...team.players, team.substitute]
-      : team.players
+    const players = team.coach ? [...team.players, team.coach] : team.players
     await db.team.create({
       data: {
         slug: team.slug,

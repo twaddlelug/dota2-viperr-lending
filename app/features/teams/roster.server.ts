@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import { type ActionResult, fail, ok } from '~/lib/action-result'
 import { db, isUniqueViolation } from '~/lib/db.server'
-import { type Position, toPosition } from './team'
+import { type Position, teamLogo, toPosition } from './team'
 
 type PlayerInput = { nickname: string; position: Position | null }
 
@@ -45,20 +45,30 @@ export async function updatePlayer(
           data: { position: player.position },
         })
       }
+      const becomesCoach = position === null
       await tx.player.update({
         where: { id: playerId },
-        data: { nickname, position },
+        data: {
+          nickname,
+          position,
+          ...(becomesCoach && { isCaptain: false }),
+        },
       })
     })
   )
 }
 
-export function toggleCaptain(teamId: string, playerId: string) {
-  return rosterWrite(async () => {
-    const player = await db().player.findUniqueOrThrow({
-      where: { id: playerId, teamId },
-    })
-    await db().$transaction([
+export async function toggleCaptain(
+  teamId: string,
+  playerId: string
+): Promise<ActionResult> {
+  const player = await db().player.findUniqueOrThrow({
+    where: { id: playerId, teamId },
+  })
+  if (player.position === null) return fail('Тренер не может быть капитаном')
+
+  return rosterWrite(() =>
+    db().$transaction([
       db().player.updateMany({ where: { teamId }, data: { isCaptain: false } }),
       ...(player.isCaptain
         ? []
@@ -69,7 +79,7 @@ export function toggleCaptain(teamId: string, playerId: string) {
             }),
           ]),
     ])
-  })
+  )
 }
 
 export function renewInvite(teamId: string, playerId: string) {
@@ -145,14 +155,27 @@ export async function listPendingInvites(limit = 12) {
     orderBy: [{ team: { name: 'asc' } }, { position: 'asc' }],
     take: limit,
     include: {
-      team: { select: { id: true, name: true, tag: true, logoUrl: true } },
+      team: {
+        select: {
+          id: true,
+          name: true,
+          tag: true,
+          logoUrl: true,
+          server: { select: { iconUrl: true } },
+        },
+      },
     },
   })
-  return players.map(player => ({
+  return players.map(({ team, ...player }) => ({
     id: player.id,
     nickname: player.nickname,
     position: toPosition(player.position),
-    team: player.team,
+    team: {
+      id: team.id,
+      name: team.name,
+      tag: team.tag,
+      logoUrl: teamLogo(team),
+    },
     inviteCode: player.inviteCode,
   }))
 }

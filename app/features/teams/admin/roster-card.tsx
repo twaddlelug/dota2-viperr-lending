@@ -10,6 +10,7 @@ import { useAdminFetcher } from '~/components/admin/use-admin-fetcher'
 import { Avatar } from '~/components/ui/avatar'
 import { BrandIcon } from '~/components/ui/brand-icon'
 import { cn } from '~/lib/cn'
+import { SlotMarker } from '../slot-marker'
 import { type Position, positionLabel, ROSTER_SLOTS } from '../team'
 import type { AdminPlayer } from '../teams.server'
 
@@ -29,14 +30,12 @@ export function RosterCard({
           const player = players.find(p => p.position === slot)
           return (
             <li
-              key={slot ?? 'sub'}
+              key={slot ?? 'coach'}
               className="flex flex-wrap items-center gap-4 px-5 py-4"
             >
               <div className="w-28 shrink-0">
-                <span className="font-black font-display text-2xl text-metal">
-                  {slot ?? 'S'}
-                </span>
-                <p className="text-muted text-xs">{positionLabel(slot)}</p>
+                <SlotMarker position={slot} className="text-2xl" />
+                <p className="mt-1 text-muted text-xs">{positionLabel(slot)}</p>
               </div>
               {player ? (
                 <PlayerSlot
@@ -130,16 +129,18 @@ function PlayerSlot({
             </Button>
           </>
         )}
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          aria-label={isCaptain ? 'Снять капитана' : 'Сделать капитаном'}
-          aria-pressed={isCaptain}
-          onClick={() => submit(captain, 'toggleCaptain')}
-        >
-          <Star className={cn(isCaptain && 'fill-accent text-accent')} />
-        </Button>
+        {player.position !== null && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={isCaptain ? 'Снять капитана' : 'Сделать капитаном'}
+            aria-pressed={isCaptain}
+            onClick={() => submit(captain, 'toggleCaptain')}
+          >
+            <Star className={cn(isCaptain && 'fill-accent text-accent')} />
+          </Button>
+        )}
         <Button
           type="button"
           variant="ghost"

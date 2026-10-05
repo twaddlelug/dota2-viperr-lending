@@ -53,7 +53,7 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
           {team.players.map(player => (
             <PlayerCard key={player.id} player={player} />
           ))}
-          {team.substitute && <PlayerCard player={team.substitute} />}
+          {team.coach && <PlayerCard player={team.coach} />}
         </div>
       </section>
 

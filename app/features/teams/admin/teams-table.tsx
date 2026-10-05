@@ -2,7 +2,7 @@ import { ChevronRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router'
 import { Avatar } from '~/components/ui/avatar'
 import { cn } from '~/lib/cn'
-import { ROSTER_SLOTS } from '../team'
+import { ROSTER_SLOTS, teamLogo } from '../team'
 import type { AdminTeamSummary } from '../teams.server'
 
 export function TeamsTable({ teams }: { teams: AdminTeamSummary[] }) {
@@ -39,7 +39,7 @@ export function TeamsTable({ teams }: { teams: AdminTeamSummary[] }) {
                 <td className="px-5 py-3">
                   <span className="flex items-center gap-3">
                     <Avatar
-                      src={team.logoUrl ?? undefined}
+                      src={teamLogo(team)}
                       name={team.name}
                       initials={team.tag}
                       size="sm"
@@ -70,7 +70,7 @@ export function TeamsTable({ teams }: { teams: AdminTeamSummary[] }) {
                   <span className="flex gap-1">
                     {ROSTER_SLOTS.map(slot => (
                       <span
-                        key={slot ?? 'sub'}
+                        key={slot ?? 'coach'}
                         className={cn(
                           'h-2 w-4 rounded-full',
                           team.players.some(p => p.position === slot)
