@@ -25,6 +25,7 @@ Every Discord community fields one team of its best players, and the teams play 
 
 - **Website**: landing page, playoff bracket (upper and lower bracket, best-of-five grand final), team list and team profiles.
 - **Admin panel** at `/admin`: servers, teams, rosters with personal invite links, seeding, match results and landing page texts.
+- **Team managers** at `/manage`: organizers attach a Discord ID to each server, and that person creates the server's team, fills the positions and hands out invite links. Seeding and results stay with the organizers.
 - **Players** sign in with Discord and link their Steam account; nicknames and avatars are pulled in automatically.
 - **Two modes**: a static demo built from sample data, and a server backed by Postgres.
 
@@ -44,7 +45,7 @@ pnpm dev
 The site runs at http://localhost:5173.
 
 > [!TIP]
-> To open the admin panel without a Discord application, put the same Discord ID into `DEV_LOGIN_DISCORD_ID` and `ADMIN_DISCORD_IDS` in `.env`. Production builds do not include this shortcut.
+> To open the admin panel without a Discord application, put the same Discord ID into `DEV_LOGIN_DISCORD_ID` and `ADMIN_DISCORD_IDS` in `.env`. Enter that ID as a server's manager to try `/manage` as well. Production builds do not include this shortcut.
 
 ### Environment variables
 
