@@ -25,12 +25,15 @@ model User {
 }
 
 model Server {
-  id        String   @id @default(cuid())
-  name      String
-  iconUrl   String?
-  inviteUrl String?
-  team      Team?
-  createdAt DateTime @default(now())
+  id               String   @id @default(cuid())
+  name             String
+  iconUrl          String?
+  inviteUrl        String?
+  managerDiscordId String?
+  team             Team?
+  createdAt        DateTime @default(now())
+
+  @@index([managerDiscordId])
 }
 
 model Team {

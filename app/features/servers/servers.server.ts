@@ -1,14 +1,25 @@
+import { isDiscordId } from '~/features/auth/discord-id'
 import { type ActionResult, fail, ok } from '~/lib/action-result'
 import { db } from '~/lib/db.server'
 import { fetchGuildFromInvite } from './discord-invite.server'
 
 export const countServers = () => db().server.count()
 
-export function listServers() {
-  return db().server.findMany({
+export async function listServers() {
+  const servers = await db().server.findMany({
     orderBy: { name: 'asc' },
     include: { team: { select: { id: true, name: true } } },
   })
+  const managerIds = servers.flatMap(server => server.managerDiscordId ?? [])
+  const managers = await db().user.findMany({
+    where: { discordId: { in: managerIds } },
+    select: { discordId: true, username: true },
+  })
+  return servers.map(server => ({
+    ...server,
+    manager:
+      managers.find(user => user.discordId === server.managerDiscordId) ?? null,
+  }))
 }
 
 export type AdminServer = Awaited<ReturnType<typeof listServers>>[number]
@@ -23,17 +34,27 @@ export function listServerChoices(currentId?: string) {
 
 export async function saveServer(
   id: string | null,
-  input: { name: string; iconUrl: string | null; inviteUrl: string | null }
+  input: {
+    name: string
+    iconUrl: string | null
+    inviteUrl: string | null
+    managerDiscordId: string | null
+  }
 ): Promise<ActionResult> {
+  const { inviteUrl, managerDiscordId } = input
+  if (managerDiscordId && !isDiscordId(managerDiscordId)) {
+    return fail('Discord ID менеджера — это число из 17–20 цифр')
+  }
+
   let { name, iconUrl } = input
-  if (input.inviteUrl && (!name || !iconUrl)) {
-    const guild = await fetchGuildFromInvite(input.inviteUrl)
+  if (inviteUrl && (!name || !iconUrl)) {
+    const guild = await fetchGuildFromInvite(inviteUrl)
     name ||= guild?.name ?? ''
     iconUrl ??= guild?.iconUrl ?? null
   }
   if (!name) return fail('Не удалось определить название сервера')
 
-  const values = { name, iconUrl, inviteUrl: input.inviteUrl }
+  const values = { name, iconUrl, inviteUrl, managerDiscordId }
   if (id) {
     await db().server.update({ where: { id }, data: values })
   } else {

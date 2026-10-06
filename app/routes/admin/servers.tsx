@@ -29,6 +29,7 @@ export async function action({ request }: Route.ActionArgs) {
     name: text(form, 'name'),
     iconUrl: optionalText(form, 'iconUrl'),
     inviteUrl: optionalText(form, 'inviteUrl'),
+    managerDiscordId: optionalText(form, 'managerDiscordId'),
   }
 
   switch (text(form, 'intent')) {

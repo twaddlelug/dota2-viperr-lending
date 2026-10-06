@@ -41,13 +41,16 @@ export function ServerListItem({
         )}
       </div>
 
-      {server.team ? (
-        <Link to={`/admin/teams/${server.team.id}`}>
-          <Badge tone="green">{server.team.name}</Badge>
-        </Link>
-      ) : (
-        <Badge>Без команды</Badge>
-      )}
+      <div className="flex flex-wrap gap-2">
+        {server.team ? (
+          <Link to={`/admin/teams/${server.team.id}`}>
+            <Badge tone="green">{server.team.name}</Badge>
+          </Link>
+        ) : (
+          <Badge>Без команды</Badge>
+        )}
+        <ManagerBadge server={server} />
+      </div>
 
       <div className="flex items-center gap-1">
         {server.inviteUrl && (
@@ -99,4 +102,14 @@ export function ServerListItem({
       </div>
     </li>
   )
+}
+
+function ManagerBadge({ server }: { server: AdminServer }) {
+  if (server.manager) {
+    return <Badge tone="green">Менеджер @{server.manager.username}</Badge>
+  }
+  if (server.managerDiscordId) {
+    return <Badge tone="yellow">Менеджер ещё не входил</Badge>
+  }
+  return <Badge>Без менеджера</Badge>
 }

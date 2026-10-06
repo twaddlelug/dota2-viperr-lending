@@ -34,6 +34,16 @@ export function ServerForm({
       <Field label="Иконка (URL)">
         <Input name="iconUrl" defaultValue={server?.iconUrl ?? ''} />
       </Field>
+      <Field label="Discord ID менеджера команды">
+        <Input
+          name="managerDiscordId"
+          defaultValue={server?.managerDiscordId ?? ''}
+          inputMode="numeric"
+          pattern="[0-9]{17,20}"
+          title="Число из 17–20 цифр"
+          placeholder="Например, 1094839240352071711"
+        />
+      </Field>
       <DialogActions>
         <Button type="button" variant="secondary" onClick={onDone}>
           Отмена
