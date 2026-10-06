@@ -14,7 +14,7 @@ export function Footer({ discordUrl }: { discordUrl: string }) {
 
   return (
     <footer className="relative mt-32 overflow-hidden bg-gradient-to-b from-bg via-footer-glow to-footer-end px-6 sm:px-10 lg:px-14">
-      <div className="flex flex-col items-center gap-6 border-white/10 border-t pt-8 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div className="flex flex-col items-center gap-6 pt-8 text-center sm:flex-row sm:justify-between sm:text-left">
         <div className="flex items-center gap-3">
           <DotaMark className="h-8 w-8" />
           <div>
@@ -25,7 +25,7 @@ export function Footer({ discordUrl }: { discordUrl: string }) {
               {SITE.name}
             </Link>
             <p className="mt-0.5 text-muted text-xs">
-              © {SITE.established} · Организатор — {TOURNAMENT.organizer}
+              © {SITE.established}
             </p>
           </div>
         </div>
