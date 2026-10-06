@@ -1,6 +1,9 @@
+import { ArrowRight } from 'lucide-react'
+import { siDiscord } from 'simple-icons'
 import { Rise, RiseWords } from '~/components/effects/rise'
 import { Navbar } from '~/components/layout/navbar'
 import { Stage } from '~/components/layout/stage'
+import { BrandIcon } from '~/components/ui/brand-icon'
 import { ButtonLink } from '~/components/ui/button-link'
 import { CornerFrame } from '~/components/ui/corner-frame'
 import { NAV_LINKS, SITE } from '~/config/site'
@@ -45,10 +48,14 @@ export function Hero({
 
           <Rise
             delay={0.4}
-            className="mt-12 flex flex-wrap justify-center gap-5"
+            className="mt-12 flex w-full max-w-xs flex-col gap-4 sm:w-auto sm:max-w-none sm:flex-row sm:gap-5"
           >
-            <ButtonLink href="/bracket">Турнирная сетка</ButtonLink>
+            <ButtonLink href="/bracket">
+              Турнирная сетка
+              <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
+            </ButtonLink>
             <ButtonLink href={discordUrl} variant="ghost">
+              <BrandIcon icon={siDiscord} />
               Discord-ивент
             </ButtonLink>
           </Rise>

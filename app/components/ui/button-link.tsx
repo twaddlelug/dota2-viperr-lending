@@ -10,8 +10,9 @@ type ButtonLinkProps = {
 }
 
 const VARIANTS = {
-  primary: 'bg-accent text-black hover:bg-accent-hover',
-  ghost: 'text-white hover:text-accent',
+  primary: 'text-black before:bg-accent hover:before:bg-accent-hover',
+  ghost:
+    'text-white before:border before:border-white/25 before:bg-white/[0.04] hover:before:border-white/60 hover:before:bg-white/[0.08]',
 }
 
 export function ButtonLink({
@@ -22,7 +23,7 @@ export function ButtonLink({
   className,
 }: ButtonLinkProps) {
   const classes = cn(
-    'inline-flex rounded-[20px] p-5 font-bold text-[0.95rem] transition duration-150 hover:scale-[0.98] active:scale-[0.95] sm:text-base',
+    'group relative isolate inline-flex h-14 items-center justify-center gap-3 px-9 font-bold font-display text-[13px] uppercase tracking-[0.08em] transition-transform duration-150 before:absolute before:inset-0 before:-z-10 before:-skew-x-12 before:rounded-md before:transition-colors focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 active:scale-[0.97] [&_svg]:h-4 [&_svg]:w-4',
     VARIANTS[variant],
     className
   )
