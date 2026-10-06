@@ -2,7 +2,7 @@ import { Button } from '~/components/admin/button'
 import { DialogActions } from '~/components/admin/dialog'
 import { Field, Input, Select } from '~/components/admin/form-controls'
 import { useAdminFetcher } from '~/components/admin/use-admin-fetcher'
-import { positionLabel, ROSTER_SLOTS } from '../team'
+import { NAME_MAX_LENGTH, positionLabel, ROSTER_SLOTS } from '../team'
 import type { AdminPlayer } from '../teams.server'
 
 export function PlayerForm({
@@ -24,6 +24,7 @@ export function PlayerForm({
         <Input
           name="nickname"
           defaultValue={player.nickname}
+          maxLength={NAME_MAX_LENGTH}
           required
           autoFocus
         />

@@ -1,58 +1,84 @@
 import { Link2Off, Pencil, RefreshCw, Star, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { siDiscord, siSteam } from 'simple-icons'
 import { Badge } from '~/components/admin/badge'
 import { Button } from '~/components/admin/button'
 import { Card } from '~/components/admin/card'
 import { ConfirmButton } from '~/components/admin/confirm-button'
 import { CopyButton } from '~/components/admin/copy-button'
+import { Dialog } from '~/components/admin/dialog'
 import { Input } from '~/components/admin/form-controls'
 import { useAdminFetcher } from '~/components/admin/use-admin-fetcher'
 import { Avatar } from '~/components/ui/avatar'
 import { BrandIcon } from '~/components/ui/brand-icon'
 import { cn } from '~/lib/cn'
 import { SlotMarker } from '../slot-marker'
-import { type Position, positionLabel, ROSTER_SLOTS } from '../team'
+import {
+  NAME_MAX_LENGTH,
+  type Position,
+  positionLabel,
+  ROSTER_SLOTS,
+} from '../team'
 import type { AdminPlayer } from '../teams.server'
+import { PlayerForm } from './player-form'
 
 export function RosterCard({
   players,
   inviteBase,
-  onEditPlayer,
 }: {
   players: AdminPlayer[]
   inviteBase: string
-  onEditPlayer: (player: AdminPlayer) => void
 }) {
+  const [editing, setEditing] = useState<AdminPlayer | null>(null)
+
   return (
-    <Card title="Состав">
-      <ul className="divide-y divide-line">
-        {ROSTER_SLOTS.map(slot => {
-          const player = players.find(p => p.position === slot)
-          return (
-            <li
-              key={slot ?? 'coach'}
-              className="flex flex-wrap items-center gap-4 px-5 py-4"
-            >
-              <div className="w-28 shrink-0">
-                <SlotMarker position={slot} className="text-2xl" />
-                <p className="mt-1 text-muted text-xs">{positionLabel(slot)}</p>
-              </div>
-              {player ? (
-                <PlayerSlot
-                  player={player}
-                  inviteUrl={
-                    player.inviteCode ? inviteBase + player.inviteCode : null
-                  }
-                  onEdit={() => onEditPlayer(player)}
-                />
-              ) : (
-                <AddPlayerForm slot={slot} />
-              )}
-            </li>
-          )
-        })}
-      </ul>
-    </Card>
+    <>
+      <Card title="Состав">
+        <ul className="divide-y divide-line">
+          {ROSTER_SLOTS.map(slot => {
+            const player = players.find(p => p.position === slot)
+            return (
+              <li
+                key={slot ?? 'coach'}
+                className="flex flex-wrap items-center gap-4 px-5 py-4"
+              >
+                <div className="w-28 shrink-0">
+                  <SlotMarker position={slot} className="text-2xl" />
+                  <p className="mt-1 text-muted text-xs">
+                    {positionLabel(slot)}
+                  </p>
+                </div>
+                {player ? (
+                  <PlayerSlot
+                    player={player}
+                    inviteUrl={
+                      player.inviteCode ? inviteBase + player.inviteCode : null
+                    }
+                    onEdit={() => setEditing(player)}
+                  />
+                ) : (
+                  <AddPlayerForm slot={slot} />
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      </Card>
+
+      <Dialog
+        open={editing !== null}
+        onClose={() => setEditing(null)}
+        title="Игрок"
+      >
+        {editing && (
+          <PlayerForm
+            player={editing}
+            roster={players}
+            onDone={() => setEditing(null)}
+          />
+        )}
+      </Dialog>
+    </>
   )
 }
 
@@ -78,7 +104,7 @@ function PlayerSlot({
 
   return (
     <>
-      <div className="flex min-w-0 flex-1 items-center gap-3">
+      <div className="flex min-w-40 flex-1 items-center gap-3">
         <Avatar
           src={user?.avatarUrl ?? undefined}
           name={player.nickname}
@@ -192,13 +218,14 @@ function AddPlayerForm({ slot }: { slot: Position | null }) {
   const fetcher = useAdminFetcher({ success: 'Игрок добавлен' })
 
   return (
-    <fetcher.Form method="post" className="flex min-w-0 flex-1 gap-2">
+    <fetcher.Form method="post" className="flex min-w-48 flex-1 gap-2">
       <input type="hidden" name="intent" value="addPlayer" />
       <input type="hidden" name="position" value={slot ?? ''} />
       <Input
         name="nickname"
         placeholder="Ник"
         aria-label={`Ник: ${positionLabel(slot)}`}
+        maxLength={NAME_MAX_LENGTH}
         required
         className="max-w-xs border-dashed bg-transparent"
       />

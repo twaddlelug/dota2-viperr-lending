@@ -1,7 +1,8 @@
 import { Button } from '~/components/admin/button'
 import { DialogActions } from '~/components/admin/dialog'
-import { Field, Input, Select } from '~/components/admin/form-controls'
+import { Field, Select } from '~/components/admin/form-controls'
 import { useAdminFetcher } from '~/components/admin/use-admin-fetcher'
+import { TeamNameFields } from './team-name-fields'
 
 export function CreateTeamForm({
   servers,
@@ -23,14 +24,7 @@ export function CreateTeamForm({
           ))}
         </Select>
       </Field>
-      <div className="grid grid-cols-[1fr_7rem] gap-4">
-        <Field label="Название">
-          <Input name="name" required autoFocus />
-        </Field>
-        <Field label="Тег">
-          <Input name="tag" maxLength={5} required className="uppercase" />
-        </Field>
-      </div>
+      <TeamNameFields />
       <DialogActions>
         <Button type="button" variant="secondary" onClick={onCancel}>
           Отмена

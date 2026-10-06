@@ -1,15 +1,25 @@
 import { randomBytes } from 'node:crypto'
 import { type ActionResult, fail, ok } from '~/lib/action-result'
-import { db, isUniqueViolation } from '~/lib/db.server'
-import { type Position, teamLogo, toPosition } from './team'
+import { db, isRecordNotFound, isUniqueViolation } from '~/lib/db.server'
+import { NAME_MAX_LENGTH, type Position, teamLogo, toPosition } from './team'
 
 type PlayerInput = { nickname: string; position: Position | null }
+
+const PLAYER_NOT_FOUND = 'Игрок не найден'
+
+function nicknameError(nickname: string) {
+  if (!nickname) return fail('Укажите ник')
+  if (nickname.length > NAME_MAX_LENGTH) {
+    return fail(`Ник — не длиннее ${NAME_MAX_LENGTH} символов`)
+  }
+}
 
 export async function addPlayer(
   teamId: string,
   { nickname, position }: PlayerInput
 ): Promise<ActionResult> {
-  if (!nickname) return fail('Укажите ник')
+  const invalid = nicknameError(nickname)
+  if (invalid) return invalid
   const taken = await db().player.findFirst({ where: { teamId, position } })
   if (taken) return fail('Слот уже занят')
 
@@ -25,7 +35,8 @@ export async function updatePlayer(
   playerId: string,
   { nickname, position }: PlayerInput
 ): Promise<ActionResult> {
-  if (!nickname) return fail('Укажите ник')
+  const invalid = nicknameError(nickname)
+  if (invalid) return invalid
 
   return rosterWrite(() =>
     db().$transaction(async tx => {
@@ -62,9 +73,10 @@ export async function toggleCaptain(
   teamId: string,
   playerId: string
 ): Promise<ActionResult> {
-  const player = await db().player.findUniqueOrThrow({
+  const player = await db().player.findUnique({
     where: { id: playerId, teamId },
   })
+  if (!player) return fail(PLAYER_NOT_FOUND)
   if (player.position === null) return fail('Тренер не может быть капитаном')
 
   return rosterWrite(() =>
@@ -114,6 +126,7 @@ async function rosterWrite(
     return ok()
   } catch (error) {
     if (isUniqueViolation(error)) return fail('Слот уже занят')
+    if (isRecordNotFound(error)) return fail(PLAYER_NOT_FOUND)
     throw error
   }
 }

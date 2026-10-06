@@ -6,6 +6,7 @@ import { BrandIcon } from '~/components/ui/brand-icon'
 import { ButtonLink } from '~/components/ui/button-link'
 import { SITE } from '~/config/site'
 import { isAdmin, requireUser } from '~/features/auth/session.server'
+import { listManagedServers } from '~/features/servers/manager.server'
 import { positionWithNumber, toPosition } from '~/features/teams/team'
 import { cn } from '~/lib/cn'
 import type { Route } from './+types/profile'
@@ -13,6 +14,7 @@ import type { Route } from './+types/profile'
 export async function loader({ request }: Route.LoaderArgs) {
   const user = await requireUser(request)
   const { player } = user
+  const managed = await listManagedServers(user.discordId)
 
   return {
     discord: {
@@ -34,6 +36,7 @@ export async function loader({ request }: Route.LoaderArgs) {
       position: toPosition(player.position),
       captain: player.isCaptain,
     },
+    managedServers: managed.map(server => server.name),
     isAdmin: isAdmin(user),
   }
 }
@@ -60,7 +63,7 @@ const STEAM_NOTICES: Record<string, Notice> = {
 }
 
 export default function ProfilePage({ loaderData }: Route.ComponentProps) {
-  const { discord, steam, roster } = loaderData
+  const { discord, steam, roster, managedServers } = loaderData
   const [params] = useSearchParams()
   const notice = params.get('joined')
     ? JOINED
@@ -168,11 +171,25 @@ export default function ProfilePage({ loaderData }: Route.ComponentProps) {
             </p>
           ) : (
             <p className="text-muted text-sm">
-              Вы пока не в составе. Попросите у организаторов
-              ссылку-приглашение.
+              Вы пока не в составе. Попросите ссылку-приглашение у менеджера
+              команды своего сервера.
             </p>
           )}
         </Account>
+
+        {managedServers.length > 0 && (
+          <Account title="Менеджер команды">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="font-semibold">{managedServers.join(', ')}</p>
+                <p className="mt-1 text-muted text-sm">
+                  Соберите состав и раздайте игрокам приглашения.
+                </p>
+              </div>
+              <ButtonLink href="/manage">Управлять командой</ButtonLink>
+            </div>
+          </Account>
+        )}
 
         <div className="flex items-center justify-between pt-4">
           {loaderData.isAdmin ? (

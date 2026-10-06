@@ -4,6 +4,7 @@ import { ConfirmButton } from '~/components/admin/confirm-button'
 import { Field, Input, Select } from '~/components/admin/form-controls'
 import { useAdminFetcher } from '~/components/admin/use-admin-fetcher'
 import type { AdminTeam } from '../teams.server'
+import { TeamNameFields } from './team-name-fields'
 
 export function TeamForm({
   team,
@@ -20,20 +21,7 @@ export function TeamForm({
   return (
     <fetcher.Form method="post" className="space-y-4">
       <input type="hidden" name="intent" value="updateTeam" />
-      <div className="grid grid-cols-[1fr_7rem] gap-4">
-        <Field label="Название">
-          <Input name="name" defaultValue={team.name} required autoFocus />
-        </Field>
-        <Field label="Тег">
-          <Input
-            name="tag"
-            defaultValue={team.tag}
-            maxLength={5}
-            required
-            className="uppercase"
-          />
-        </Field>
-      </div>
+      <TeamNameFields team={team} />
       <Field label="Сервер">
         <Select name="serverId" defaultValue={team.serverId}>
           {servers.map(server => (

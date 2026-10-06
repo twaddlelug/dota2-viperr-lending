@@ -30,6 +30,11 @@ const serverRoutes = [
     route('bracket', 'routes/admin/bracket.tsx'),
     route('settings', 'routes/admin/settings.tsx'),
   ]),
+
+  route('manage', 'routes/manage/layout.tsx', [
+    index('routes/manage/index.tsx'),
+    route(':serverId', 'routes/manage/server.tsx'),
+  ]),
 ]
 
 export default [

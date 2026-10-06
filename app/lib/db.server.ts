@@ -11,6 +11,10 @@ export function db() {
   return globalForPrisma.prisma
 }
 
+const hasErrorCode = (error: unknown, code: string) =>
+  error instanceof Prisma.PrismaClientKnownRequestError && error.code === code
+
 export const isUniqueViolation = (error: unknown) =>
-  error instanceof Prisma.PrismaClientKnownRequestError &&
-  error.code === 'P2002'
+  hasErrorCode(error, 'P2002')
+
+export const isRecordNotFound = (error: unknown) => hasErrorCode(error, 'P2025')

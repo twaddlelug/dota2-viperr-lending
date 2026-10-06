@@ -35,6 +35,10 @@ export type Team = {
   coach?: Player
 }
 
+export const NAME_MAX_LENGTH = 32
+
+export const TAG_MAX_LENGTH = 5
+
 export const POSITIONS: Position[] = [1, 2, 3, 4, 5]
 
 export const ROSTER_SLOTS: Array<Position | null> = [...POSITIONS, null]

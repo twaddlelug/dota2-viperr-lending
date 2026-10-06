@@ -3,7 +3,14 @@ import { type ActionResult, fail, ok } from '~/lib/action-result'
 import { db, isUniqueViolation } from '~/lib/db.server'
 import { DEMO_TEAMS } from './demo-teams'
 import { slugify } from './slug'
-import { type Player, type Team, teamLogo, toPosition } from './team'
+import {
+  NAME_MAX_LENGTH,
+  type Player,
+  TAG_MAX_LENGTH,
+  type Team,
+  teamLogo,
+  toPosition,
+} from './team'
 
 const teamInclude = {
   server: true,
@@ -100,15 +107,36 @@ export type AdminTeamSummary = Awaited<
   ReturnType<typeof listTeamsForAdmin>
 >[number]
 
+const adminTeamInclude = {
+  server: true,
+  players: { include: { user: true } },
+} satisfies Prisma.TeamInclude
+
 export function getTeamForAdmin(teamId: string) {
   return db().team.findUnique({
     where: { id: teamId },
-    include: { server: true, players: { include: { user: true } } },
+    include: adminTeamInclude,
+  })
+}
+
+export function getTeamOfServer(serverId: string) {
+  return db().team.findUnique({
+    where: { serverId },
+    include: adminTeamInclude,
   })
 }
 
 export type AdminTeam = NonNullable<Awaited<ReturnType<typeof getTeamForAdmin>>>
 export type AdminPlayer = AdminTeam['players'][number]
+
+function nameError(name: string, tag: string) {
+  if (!name || !tag) return fail('Укажите название и тег')
+  if (name.length > NAME_MAX_LENGTH || tag.length > TAG_MAX_LENGTH) {
+    return fail(
+      `Название — до ${NAME_MAX_LENGTH} символов, тег — до ${TAG_MAX_LENGTH}`
+    )
+  }
+}
 
 export async function createTeam(input: {
   name: string
@@ -116,9 +144,9 @@ export async function createTeam(input: {
   serverId: string
 }): Promise<ActionResult<{ teamId: string }>> {
   const tag = input.tag.toUpperCase()
-  if (!input.name || !tag || !input.serverId) {
-    return fail('Заполните все поля')
-  }
+  if (!input.serverId) return fail('Выберите сервер')
+  const invalid = nameError(input.name, tag)
+  if (invalid) return invalid
 
   try {
     const team = await db().team.create({
@@ -149,7 +177,8 @@ export async function updateTeam(
   }
 ): Promise<ActionResult> {
   const tag = input.tag.toUpperCase()
-  if (!input.name || !tag) return fail('Укажите название и тег')
+  const invalid = nameError(input.name, tag)
+  if (invalid) return invalid
 
   try {
     await db().team.update({
@@ -167,6 +196,21 @@ export async function updateTeam(
     if (isUniqueViolation(error)) return fail('Такой адрес страницы уже занят')
     throw error
   }
+}
+
+export async function renameTeam(
+  teamId: string,
+  input: { name: string; tag: string }
+): Promise<ActionResult> {
+  const tag = input.tag.toUpperCase()
+  const invalid = nameError(input.name, tag)
+  if (invalid) return invalid
+
+  await db().team.update({
+    where: { id: teamId },
+    data: { name: input.name, tag },
+  })
+  return ok()
 }
 
 export async function deleteTeam(teamId: string) {
