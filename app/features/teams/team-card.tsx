@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { Avatar } from '~/components/ui/avatar'
 import { CornerFrame } from '~/components/ui/corner-frame'
 import { cn } from '~/lib/cn'
+import { CaptainBadge } from './captain-badge'
 import { SlotMarker } from './slot-marker'
 import {
   type Player,
@@ -121,12 +122,7 @@ function LineupSlot({
         ) : (
           <span className="block h-9 w-9 rounded-full border border-line border-dashed sm:h-12 sm:w-12" />
         )}
-        {player?.captain && (
-          <span className="absolute -right-1 -bottom-1 rounded-full bg-accent px-1.5 font-bold text-[10px] text-black leading-4">
-            <span aria-hidden>C</span>
-            <span className="sr-only">Капитан</span>
-          </span>
-        )}
+        {player?.captain && <CaptainBadge />}
       </div>
       <span
         className={cn(
