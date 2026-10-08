@@ -8,6 +8,7 @@ export type NavItem = {
 export const SITE = {
   name: 'Viperr Group',
   established: 2026,
+  description: 'Вау!',
 } as const
 
 export const TOURNAMENT = {
