@@ -4,8 +4,7 @@ import { MatchCard } from '~/features/bracket/match-card'
 
 const ABOUT_TITLE = 'Вау!'
 
-const ABOUT_TEXT =
-  'Твои глаза...'
+const ABOUT_TEXT = 'Твои глаза...'
 
 const STEPS = [
   {
