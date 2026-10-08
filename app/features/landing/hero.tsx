@@ -25,9 +25,9 @@ export function Hero() {
           </Rise>
 
           <CornerFrame className="mt-4 px-4 py-3 sm:px-10 sm:py-5">
-            <h1 className="font-black font-display text-[clamp(1.5rem,7.5vw,7rem)] uppercase leading-[1.05]">
+            <h1 className="font-black font-display text-[clamp(3rem,15vw,9rem)] uppercase leading-[1.05]">
               <RiseWords delay={0.1} wordClassName="text-metal">
-                Tournament
+                Group
               </RiseWords>
             </h1>
           </CornerFrame>

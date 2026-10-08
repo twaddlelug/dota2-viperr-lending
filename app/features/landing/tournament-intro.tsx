@@ -1,4 +1,5 @@
 import { SectionHeading } from '~/components/ui/section-heading'
+import { SITE } from '~/config/site'
 import type { Match } from '~/features/bracket/bracket'
 import { MatchCard } from '~/features/bracket/match-card'
 
@@ -34,8 +35,7 @@ export function TournamentIntro({
       <div className="grid gap-12 lg:grid-cols-[1fr_18rem]">
         <div>
           <p className="font-bold font-display text-2xl uppercase leading-tight sm:text-3xl">
-            Viperr Tournament —{' '}
-            <span className="text-accent">{ABOUT_TITLE}</span>
+            {SITE.name} — <span className="text-accent">{ABOUT_TITLE}</span>
           </p>
           <p className="mt-5 max-w-3xl text-lg text-white/75 leading-relaxed">
             {ABOUT_TEXT}

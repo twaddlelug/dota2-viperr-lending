@@ -5,7 +5,7 @@
   <img src=".github/assets/logo-light.svg" alt="" height="72">
 </picture>
 
-# Viperr Tournament
+# Viperr Group
 
 *Website for a Dota 2 tournament between CIS Discord communities*
 
@@ -19,7 +19,7 @@
 
 </div>
 
-Every Discord community fields one team of its best players, and the teams play a double-elimination playoff in the format of The International. The tournament is organized by the Viperr server. The site itself is in Russian.
+Every Discord community fields one team of its best players, and the teams play a double-elimination playoff in the format of The International. The tournament is organized by Viperr Group. The site itself is in Russian.
 
 ## Features
 
