@@ -1,7 +1,7 @@
 import { data, Form, redirect, useNavigation } from 'react-router'
 import { PageHeader } from '~/components/layout/page-header'
 import { Avatar } from '~/components/ui/avatar'
-import { ButtonLink } from '~/components/ui/button-link'
+import { ButtonLink, CtaButton } from '~/components/ui/button-link'
 import { SITE } from '~/config/site'
 import { getCurrentUser, requireUser } from '~/features/auth/session.server'
 import { claimInvite, getInvite } from '~/features/teams/roster.server'
@@ -124,13 +124,9 @@ export default function InvitePage({
                     <span className="text-muted">@{user.username}</span>
                   </span>
                 </div>
-                <button
-                  type="submit"
-                  disabled={navigation.state !== 'idle'}
-                  className="rounded-[20px] bg-accent p-5 font-bold text-black transition hover:scale-[0.98] disabled:opacity-50"
-                >
+                <CtaButton disabled={navigation.state !== 'idle'}>
                   Принять приглашение
-                </button>
+                </CtaButton>
               </Form>
             )}
           </div>

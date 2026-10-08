@@ -38,10 +38,7 @@ export function Hero() {
             </p>
           </Rise>
 
-          <Rise
-            delay={0.4}
-            className="mt-12 flex w-full max-w-xs flex-col gap-4 sm:w-auto sm:max-w-none sm:flex-row sm:gap-5"
-          >
+          <Rise delay={0.4} className="mt-14">
             <ButtonLink href="/bracket">
               Турнирная сетка
               <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
