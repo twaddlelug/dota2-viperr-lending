@@ -3,9 +3,14 @@ import { PageHeader } from '~/components/layout/page-header'
 import { Avatar } from '~/components/ui/avatar'
 import { SectionHeading } from '~/components/ui/section-heading'
 import { SITE } from '~/config/site'
-import { getTeamMatches } from '~/features/bracket/bracket'
+import {
+  getStandings,
+  getTeamMatches,
+  type Standing,
+} from '~/features/bracket/bracket'
 import { getBracket } from '~/features/bracket/bracket.server'
 import { MatchCard } from '~/features/bracket/match-card'
+import { StandingLabel } from '~/features/bracket/standing-label'
 import { RosterList } from '~/features/teams/roster-list'
 import type { Team } from '~/features/teams/team'
 import { getTeam } from '~/features/teams/teams.server'
@@ -18,7 +23,11 @@ export async function loader({ params }: Route.LoaderArgs) {
   ])
   if (!team) throw data('Такой команды нет', { status: 404 })
 
-  return { team, matches: getTeamMatches(bracket, team.slug) }
+  return {
+    team,
+    standing: getStandings(bracket).get(team.slug) ?? null,
+    matches: getTeamMatches(bracket, team.slug),
+  }
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -34,7 +43,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function TeamPage({ loaderData }: Route.ComponentProps) {
-  const { team, matches } = loaderData
+  const { team, standing, matches } = loaderData
 
   return (
     <>
@@ -50,7 +59,7 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
           />
         }
       >
-        <TeamFacts team={team} />
+        <TeamFacts team={team} standing={standing} />
       </PageHeader>
 
       <section className="container mx-auto px-6 pt-10 md:px-8">
@@ -81,7 +90,13 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
   )
 }
 
-function TeamFacts({ team }: { team: Team }) {
+function TeamFacts({
+  team,
+  standing,
+}: {
+  team: Team
+  standing: Standing | null
+}) {
   const { server } = team
   const serverLabel = (
     <>
@@ -96,7 +111,7 @@ function TeamFacts({ team }: { team: Team }) {
   )
 
   return (
-    <p className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[11px] text-white/70 uppercase tracking-[0.2em]">
+    <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[11px] text-white/75 uppercase tracking-[0.2em]">
       {team.seed !== undefined && (
         <span className="text-accent">Seed {team.seed}</span>
       )}
@@ -113,6 +128,12 @@ function TeamFacts({ team }: { team: Team }) {
       ) : (
         <span className="flex items-center gap-2">{serverLabel}</span>
       )}
-    </p>
+      {standing && (
+        <StandingLabel
+          standing={standing}
+          className="font-mono text-[11px] tracking-[0.2em]"
+        />
+      )}
+    </div>
   )
 }
