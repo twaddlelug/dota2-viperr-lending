@@ -1,8 +1,6 @@
-import { ArrowRight } from 'lucide-react'
 import { Rise, RiseWords } from '~/components/effects/rise'
 import { Navbar } from '~/components/layout/navbar'
 import { Stage } from '~/components/layout/stage'
-import { ButtonLink } from '~/components/ui/button-link'
 import { CornerFrame } from '~/components/ui/corner-frame'
 import { NAV_LINKS, SITE } from '~/config/site'
 
@@ -36,13 +34,6 @@ export function Hero() {
             <p className="mt-8 max-w-2xl px-8 font-light font-mono text-[0.8rem] leading-[22px] opacity-80 sm:text-sm sm:leading-[24px] lg:p-0">
               {SITE.description}
             </p>
-          </Rise>
-
-          <Rise delay={0.4} className="mt-14">
-            <ButtonLink href="/bracket">
-              Турнирная сетка
-              <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
-            </ButtonLink>
           </Rise>
         </div>
       </Stage>

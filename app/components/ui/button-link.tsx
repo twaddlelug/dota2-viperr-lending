@@ -1,19 +1,8 @@
 import { Link } from 'react-router'
 import { cn } from '~/lib/cn'
-import { Corners } from './corners'
 
 const ctaClass =
-  'group relative inline-flex h-14 cursor-pointer items-center justify-center gap-3 bg-accent px-9 font-mono font-semibold text-black text-sm uppercase tracking-[0.14em] transition-colors duration-200 hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 active:translate-y-px disabled:cursor-default disabled:opacity-50 [&_svg]:h-4 [&_svg]:w-4'
-
-function Reticle() {
-  return (
-    <Corners
-      lockOn
-      className="-inset-2"
-      cornerClassName="h-2.5 w-2.5 border-white sm:h-2.5 sm:w-2.5"
-    />
-  )
-}
+  'inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-xl bg-accent px-6 font-semibold text-[15px] text-black shadow-[inset_0_1px_0_rgb(255_255_255/0.3),0_10px_30px_-14px_var(--color-accent)] transition-[background-color,box-shadow,scale] duration-200 hover:bg-accent-hover hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.3),0_14px_36px_-12px_var(--color-accent)] focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 active:scale-[0.98] disabled:cursor-default disabled:opacity-50 [&_svg]:h-4 [&_svg]:w-4'
 
 export function ButtonLink({
   href,
@@ -26,13 +15,6 @@ export function ButtonLink({
   reloadDocument?: boolean
   className?: string
 }) {
-  const content = (
-    <>
-      {children}
-      <Reticle />
-    </>
-  )
-
   if (href.startsWith('/')) {
     return (
       <Link
@@ -40,7 +22,7 @@ export function ButtonLink({
         reloadDocument={reloadDocument}
         className={cn(ctaClass, className)}
       >
-        {content}
+        {children}
       </Link>
     )
   }
@@ -52,20 +34,14 @@ export function ButtonLink({
       rel="noreferrer"
       className={cn(ctaClass, className)}
     >
-      {content}
+      {children}
     </a>
   )
 }
 
 export function CtaButton({
-  children,
   className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button type="submit" {...props} className={cn(ctaClass, className)}>
-      {children}
-      <Reticle />
-    </button>
-  )
+  return <button type="submit" {...props} className={cn(ctaClass, className)} />
 }
