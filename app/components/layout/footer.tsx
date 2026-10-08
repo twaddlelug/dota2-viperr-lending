@@ -24,7 +24,8 @@ export function Footer() {
               {SITE.name}
             </span>
             <span className="block text-muted text-xs">
-              © {SITE.established}
+              А также турнир не связаны с Valve Corporation и Discord Inc. и не
+              одобрены ими • © {SITE.established}
             </span>
           </span>
         </Link>
@@ -52,11 +53,6 @@ export function Footer() {
           ))}
         </nav>
       </div>
-
-      <p className="mx-auto mt-8 max-w-3xl text-center text-[11px] text-white/45 leading-relaxed sm:mx-0 sm:text-left">
-        {SITE.name} и турнир не связаны с Valve Corporation и Discord Inc. и не
-        одобрены ими.
-      </p>
 
       <p
         aria-hidden

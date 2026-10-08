@@ -58,7 +58,7 @@ The site runs at http://localhost:5173.
 | `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` | Discord application used for sign-in |
 | `ADMIN_DISCORD_IDS` | Comma-separated Discord IDs of the administrators |
 | `STEAM_API_KEY` | Optional: Steam nicknames and avatars instead of SteamIDs |
-| `PUBLIC_URL` | Public address of the site, required behind a reverse proxy; also used for links in `sitemap.xml`. On Vercel the production domain is picked up automatically |
+| `PUBLIC_URL` | Public address of the site, required behind a reverse proxy; also used for links in `sitemap.xml` and read at build time to accept form submissions from that domain, so rebuild after changing it. On Vercel the production domain is picked up automatically |
 | `DEV_LOGIN_DISCORD_ID` | Development only: sign in without Discord |
 
 ### Scripts

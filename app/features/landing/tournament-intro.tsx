@@ -1,25 +1,24 @@
 import { SectionHeading } from '~/components/ui/section-heading'
-import { SITE } from '~/config/site'
 import type { Match } from '~/features/bracket/bracket'
 import { MatchCard } from '~/features/bracket/match-card'
 
-const ABOUT_TITLE = 'а нахуя эта залупа типо?'
+const ABOUT_TITLE = 'Вау!'
 
 const ABOUT_TEXT =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  'Твои глаза...'
 
 const STEPS = [
   {
-    title: 'Сосали?',
-    text: 'Да. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    title: 'VI',
+    text: 'VI',
   },
   {
-    title: 'Лизали?',
-    text: 'Неа. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    title: 'PE',
+    text: 'PE',
   },
   {
-    title: 'Дота для геев?',
-    text: 'Да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да, да.',
+    title: 'RR',
+    text: 'RR',
   },
 ]
 
@@ -35,7 +34,7 @@ export function TournamentIntro({
       <div className="grid gap-12 lg:grid-cols-[1fr_18rem]">
         <div>
           <p className="font-bold font-display text-2xl uppercase leading-tight sm:text-3xl">
-            {SITE.name} — <span className="text-accent">{ABOUT_TITLE}</span>
+            DOTA CUP — <span className="text-accent">{ABOUT_TITLE}</span>
           </p>
           <p className="mt-5 max-w-3xl text-lg text-white/75 leading-relaxed">
             {ABOUT_TEXT}

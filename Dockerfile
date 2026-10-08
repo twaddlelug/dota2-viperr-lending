@@ -8,6 +8,7 @@ COPY prisma ./prisma
 RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
+ARG PUBLIC_URL
 COPY . .
 ENV DATA_SOURCE=db
 RUN pnpm build
