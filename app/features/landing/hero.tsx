@@ -18,7 +18,7 @@ export function Hero() {
         <div className="flex flex-col items-center pt-20 pb-28 text-center 2xl:pt-28">
           <Rise>
             <p className="-skew-x-12 font-bold font-display text-2xl text-metal tracking-wide sm:text-4xl">
-              VIPERR GROUP
+              TOURNAMENT
             </p>
           </Rise>
 
