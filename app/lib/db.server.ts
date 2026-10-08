@@ -2,13 +2,20 @@ import { PrismaPg } from '@prisma/adapter-pg'
 import { Prisma, PrismaClient } from '~/generated/prisma/client'
 import { env } from './env.server'
 
-const globalForPrisma = globalThis as { prisma?: PrismaClient }
+const cache = globalThis as {
+  prismaClient?: PrismaClient
+  prismaClientClass?: typeof PrismaClient
+}
 
 export function db() {
-  globalForPrisma.prisma ??= new PrismaClient({
-    adapter: new PrismaPg({ connectionString: env.databaseUrl }),
-  })
-  return globalForPrisma.prisma
+  if (!cache.prismaClient || cache.prismaClientClass !== PrismaClient) {
+    void cache.prismaClient?.$disconnect()
+    cache.prismaClient = new PrismaClient({
+      adapter: new PrismaPg({ connectionString: env.databaseUrl }),
+    })
+    cache.prismaClientClass = PrismaClient
+  }
+  return cache.prismaClient
 }
 
 const hasErrorCode = (error: unknown, code: string) =>
