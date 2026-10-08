@@ -17,3 +17,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm build
+  deploy:
+      needs: check
+      if: github.event_name == 'push' && github.ref == 'refs/heads/for2026'
+      runs-on: ubuntu-latest
+      concurrency: deploy
+      steps:
+        - name: Deploy
+          run: |
+            install -m 700 -d ~/.ssh
+            echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
+            echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+            ssh root@${{ secrets.DEPLOY_HOST }}
