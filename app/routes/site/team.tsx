@@ -40,6 +40,7 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
     <>
       <PageHeader
         title={team.name}
+        background={team.bannerUrl}
         media={
           <Avatar
             src={team.logoUrl}

@@ -29,6 +29,7 @@ export type Team = {
   name: string
   tag: string
   logoUrl?: string
+  bannerUrl?: string
   server: Server
   seed?: number
   players: Player[]

@@ -25,7 +25,7 @@ Every Discord community fields one team of its best players, and the teams play 
 
 - **Website**: landing page, playoff bracket (upper and lower bracket, best-of-five grand final), team list, team profiles and the partner servers.
 - **Admin panel** at `/admin`: servers, teams, rosters with personal invite links, seeding and match results. Site texts live in the code.
-- **Team managers** at `/manage`: organizers attach a Discord ID to each server, and that person creates the server's team, fills the positions and hands out invite links. Seeding and results stay with the organizers.
+- **Team managers** at `/manage`: organizers attach a Discord ID to each server, and that person creates the server's team, fills the positions, hands out invite links and uploads the team banner. Seeding and results stay with the organizers.
 - **Players** sign in with Discord and link their Steam account; nicknames and avatars are pulled in automatically.
 - **Two modes**: a static demo built from sample data, and a server backed by Postgres.
 
@@ -82,7 +82,7 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-This starts Postgres and the app on `127.0.0.1:3000`; migrations run on startup. Expose the site through a reverse proxy with HTTPS, and add `<PUBLIC_URL>/auth/discord/callback` as a redirect URI under OAuth2 in the Discord Developer Portal.
+This starts Postgres and the app on `127.0.0.1:3000`; migrations run on startup. Expose the site through a reverse proxy with HTTPS that accepts request bodies of at least 5 MB for banner uploads (nginx: `client_max_body_size 5m;`), and add `<PUBLIC_URL>/auth/discord/callback` as a redirect URI under OAuth2 in the Discord Developer Portal.
 
 > [!IMPORTANT]
 > Host the VPS outside Russia: the server has to reach Discord for sign-in and images. Visitors from Russia receive Discord images through the site itself.

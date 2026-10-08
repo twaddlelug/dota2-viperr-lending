@@ -4,10 +4,11 @@ import { data, Link, redirect } from 'react-router'
 import { Button } from '~/components/admin/button'
 import { Dialog } from '~/components/admin/dialog'
 import { listServerChoices } from '~/features/servers/servers.server'
+import { BannerCard } from '~/features/teams/admin/banner-card'
 import { RosterCard } from '~/features/teams/admin/roster-card'
 import { TeamForm } from '~/features/teams/admin/team-form'
 import { TeamTitle } from '~/features/teams/admin/team-title'
-import { rosterAction } from '~/features/teams/roster-action.server'
+import { teamAction } from '~/features/teams/team-action.server'
 import {
   deleteTeam,
   getTeamForAdmin,
@@ -45,7 +46,7 @@ export async function action({ request, params }: Route.ActionArgs) {
       await deleteTeam(teamId)
       return redirect('/admin/teams')
     default:
-      return rosterAction(teamId, form)
+      return teamAction(teamId, form)
   }
 }
 
@@ -75,6 +76,7 @@ export default function AdminTeam({ loaderData }: Route.ComponentProps) {
         </Button>
       </TeamTitle>
 
+      <BannerCard team={team} />
       <RosterCard players={team.players} inviteBase={inviteBase} />
 
       <Dialog open={editing} onClose={() => setEditing(false)} title="Команда">

@@ -37,16 +37,25 @@ model Server {
 }
 
 model Team {
-  id        String   @id @default(cuid())
-  slug      String   @unique
+  id        String      @id @default(cuid())
+  slug      String      @unique
   name      String
   tag       String
   logoUrl   String?
-  serverId  String   @unique
-  server    Server   @relation(fields: [serverId], references: [id], onDelete: Restrict)
-  seed      Int?     @unique
+  serverId  String      @unique
+  server    Server      @relation(fields: [serverId], references: [id], onDelete: Restrict)
+  seed      Int?        @unique
   players   Player[]
-  createdAt DateTime @default(now())
+  banner    TeamBanner?
+  createdAt DateTime    @default(now())
+}
+
+model TeamBanner {
+  teamId      String   @id
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  data        Bytes
+  contentType String
+  updatedAt   DateTime @updatedAt
 }
 
 model Player {

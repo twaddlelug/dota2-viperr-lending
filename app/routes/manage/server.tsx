@@ -10,10 +10,11 @@ import {
   managedServer,
   managerContext,
 } from '~/features/servers/manager.server'
+import { BannerCard } from '~/features/teams/admin/banner-card'
 import { RosterCard } from '~/features/teams/admin/roster-card'
 import { TeamNameForm } from '~/features/teams/admin/team-name-form'
 import { TeamTitle } from '~/features/teams/admin/team-title'
-import { rosterAction } from '~/features/teams/roster-action.server'
+import { teamAction } from '~/features/teams/team-action.server'
 import {
   createTeam,
   getTeamOfServer,
@@ -47,7 +48,7 @@ export async function action({ request, params, context }: Route.ActionArgs) {
   if (!team) return fail('Сначала создайте команду')
   return intent === 'renameTeam'
     ? renameTeam(team.id, name)
-    : rosterAction(team.id, form)
+    : teamAction(team.id, form)
 }
 
 export default function ManageServer({ loaderData }: Route.ComponentProps) {
@@ -75,6 +76,7 @@ export default function ManageServer({ loaderData }: Route.ComponentProps) {
             сетку ведут организаторы.
           </p>
 
+          <BannerCard team={team} />
           <RosterCard players={team.players} inviteBase={inviteBase} />
         </>
       ) : (

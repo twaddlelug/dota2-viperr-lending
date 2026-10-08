@@ -1,6 +1,7 @@
 import type { Prisma } from '~/generated/prisma/client'
 import { type ActionResult, fail, ok } from '~/lib/action-result'
 import { db, isUniqueViolation } from '~/lib/db.server'
+import { bannerUrl } from './banner'
 import { DEMO_TEAMS } from './demo-teams'
 import { slugify } from './slug'
 import {
@@ -12,8 +13,11 @@ import {
   toPosition,
 } from './team'
 
+const bannerVersion = { select: { updatedAt: true } } as const
+
 const teamInclude = {
   server: true,
+  banner: bannerVersion,
   players: { include: { user: true }, orderBy: { position: 'asc' } },
 } satisfies Prisma.TeamInclude
 
@@ -45,6 +49,7 @@ function toTeam(row: TeamRow): Team {
     name: row.name,
     tag: row.tag,
     logoUrl: teamLogo(row),
+    bannerUrl: row.banner ? bannerUrl(row.id, row.banner.updatedAt) : undefined,
     seed: row.seed ?? undefined,
     server: {
       id: row.server.id,
@@ -109,6 +114,7 @@ export type AdminTeamSummary = Awaited<
 
 const adminTeamInclude = {
   server: true,
+  banner: bannerVersion,
   players: { include: { user: true } },
 } satisfies Prisma.TeamInclude
 

@@ -7,15 +7,17 @@ import { Stage } from './stage'
 export function PageHeader({
   title,
   media,
+  background,
   children,
 }: {
   title: string
   media?: React.ReactNode
+  background?: string
   children?: React.ReactNode
 }) {
   return (
     <header className="p-4 sm:p-10">
-      <Stage className="pb-12 sm:pb-16">
+      <Stage image={background} className="pb-12 sm:pb-16">
         <div className="mt-7 lg:mt-10">
           <Navbar links={NAV_LINKS} />
         </div>

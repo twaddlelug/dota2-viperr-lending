@@ -21,6 +21,7 @@ const serverRoutes = [
     route('logout', 'routes/auth/logout.ts'),
   ]),
   route('media/*', 'routes/media.ts'),
+  route('media/banners/:teamId', 'routes/team-banner.ts'),
 
   route('admin', 'routes/admin/layout.tsx', [
     index('routes/admin/overview.tsx'),
