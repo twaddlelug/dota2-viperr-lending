@@ -2,6 +2,11 @@ import { SectionHeading } from '~/components/ui/section-heading'
 import type { Match } from '~/features/bracket/bracket'
 import { MatchCard } from '~/features/bracket/match-card'
 
+const ABOUT_TITLE = 'а нахуя эта залупа типо?'
+
+const ABOUT_TEXT =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+
 const STEPS = [
   {
     title: 'Сосали?',
@@ -19,10 +24,8 @@ const STEPS = [
 
 export function TournamentIntro({
   featuredMatch,
-  about,
 }: {
   featuredMatch: Match | null
-  about: { title: string; text: string }
 }) {
   return (
     <section className="container mx-auto px-6 pt-10 md:px-8">
@@ -32,10 +35,10 @@ export function TournamentIntro({
         <div>
           <p className="font-bold font-display text-2xl uppercase leading-tight sm:text-3xl">
             Viperr Tournament —{' '}
-            <span className="text-accent">{about.title}</span>
+            <span className="text-accent">{ABOUT_TITLE}</span>
           </p>
-          <p className="mt-5 max-w-3xl whitespace-pre-line text-lg text-white/75 leading-relaxed">
-            {about.text}
+          <p className="mt-5 max-w-3xl text-lg text-white/75 leading-relaxed">
+            {ABOUT_TEXT}
           </p>
         </div>
 

@@ -1,20 +1,12 @@
 import { ArrowRight } from 'lucide-react'
-import { siDiscord } from 'simple-icons'
 import { Rise, RiseWords } from '~/components/effects/rise'
 import { Navbar } from '~/components/layout/navbar'
 import { Stage } from '~/components/layout/stage'
-import { BrandIcon } from '~/components/ui/brand-icon'
 import { ButtonLink } from '~/components/ui/button-link'
 import { CornerFrame } from '~/components/ui/corner-frame'
 import { NAV_LINKS, SITE } from '~/config/site'
 
-export function Hero({
-  description,
-  discordUrl,
-}: {
-  description: string
-  discordUrl: string
-}) {
+export function Hero() {
   return (
     <header className="p-4 sm:p-10">
       <Stage
@@ -42,7 +34,7 @@ export function Hero({
 
           <Rise delay={0.25}>
             <p className="mt-8 max-w-2xl px-8 font-light font-mono text-[0.8rem] leading-[22px] opacity-80 sm:text-sm sm:leading-[24px] lg:p-0">
-              {description}
+              {SITE.description}
             </p>
           </Rise>
 
@@ -53,10 +45,6 @@ export function Hero({
             <ButtonLink href="/bracket">
               Турнирная сетка
               <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
-            </ButtonLink>
-            <ButtonLink href={discordUrl} variant="ghost">
-              <BrandIcon icon={siDiscord} />
-              Discord-ивент
             </ButtonLink>
           </Rise>
         </div>

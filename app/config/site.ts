@@ -13,7 +13,6 @@ export const SITE = {
 } as const
 
 export const TOURNAMENT = {
-  organizer: 'Viperr',
   timeZone: 'Europe/Moscow',
   timeZoneOffset: '+03:00',
   timeZoneLabel: 'МСК',

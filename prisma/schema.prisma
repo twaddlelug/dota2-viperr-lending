@@ -66,15 +66,6 @@ model Player {
   @@unique([teamId, position])
 }
 
-model Settings {
-  id              Int      @id @default(1)
-  heroText        String?
-  aboutTitle      String?
-  aboutText       String?
-  discordEventUrl String?
-  updatedAt       DateTime @updatedAt
-}
-
 enum MatchStatus {
   UPCOMING
   LIVE

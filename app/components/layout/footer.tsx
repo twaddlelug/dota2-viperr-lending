@@ -1,12 +1,11 @@
 import { Link } from 'react-router'
-import { siDiscord } from 'simple-icons'
 import { BrandIcon } from '~/components/ui/brand-icon'
 import { DotaMark } from '~/components/ui/dota-mark'
-import { NAV_LINKS, SITE, SOCIALS, TOURNAMENT } from '~/config/site'
+import { NAV_LINKS, SITE, SOCIALS } from '~/config/site'
 
 const linkClass = 'text-muted transition-colors hover:text-white'
 
-export function Footer({ discordUrl }: { discordUrl: string }) {
+export function Footer() {
   const links = [
     ...NAV_LINKS.filter(link => link.href !== '/'),
     ...(__DB_MODE__ ? [{ label: 'Профиль', href: '/me' }] : []),
@@ -24,9 +23,7 @@ export function Footer({ discordUrl }: { discordUrl: string }) {
             >
               {SITE.name}
             </Link>
-            <p className="mt-0.5 text-muted text-xs">
-              © {SITE.established}
-            </p>
+            <p className="mt-0.5 text-muted text-xs">© {SITE.established}</p>
           </div>
         </div>
 
@@ -39,15 +36,6 @@ export function Footer({ discordUrl }: { discordUrl: string }) {
               {link.label}
             </Link>
           ))}
-          <a
-            href={discordUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 text-accent transition-colors hover:text-accent-hover"
-          >
-            <BrandIcon icon={siDiscord} className="h-3.5 w-3.5" />
-            Discord-ивент
-          </a>
           {SOCIALS.map(social => (
             <a
               key={social.label}

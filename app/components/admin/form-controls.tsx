@@ -27,13 +27,6 @@ export function Input({
   return <input {...props} className={cn(control, className)} />
 }
 
-export function Textarea({
-  className,
-  ...props
-}: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea {...props} className={cn(control, 'resize-y', className)} />
-}
-
 export function Select({
   className,
   ...props

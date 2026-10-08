@@ -28,7 +28,6 @@ const serverRoutes = [
     route('teams', 'routes/admin/teams.tsx'),
     route('teams/:teamId', 'routes/admin/team.tsx'),
     route('bracket', 'routes/admin/bracket.tsx'),
-    route('settings', 'routes/admin/settings.tsx'),
   ]),
 
   route('manage', 'routes/manage/layout.tsx', [

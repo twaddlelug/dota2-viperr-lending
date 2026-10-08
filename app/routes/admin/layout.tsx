@@ -1,4 +1,4 @@
-import { LayoutDashboard, Server, Settings, Swords, Users } from 'lucide-react'
+import { LayoutDashboard, Server, Swords, Users } from 'lucide-react'
 import { createContext, Outlet, useRouteLoaderData } from 'react-router'
 import { ErrorPanel } from '~/components/admin/error-panel'
 import { PanelShell } from '~/components/admin/panel-shell'
@@ -11,7 +11,6 @@ const NAV = [
   { label: 'Серверы', href: '/admin/servers', icon: <Server /> },
   { label: 'Команды', href: '/admin/teams', icon: <Users /> },
   { label: 'Сетка', href: '/admin/bracket', icon: <Swords /> },
-  { label: 'Настройки', href: '/admin/settings', icon: <Settings /> },
 ]
 
 const adminUser = createContext<CurrentUser>()
