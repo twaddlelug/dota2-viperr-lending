@@ -3,7 +3,6 @@ import { siDiscord, siSteam } from 'simple-icons'
 import { PageHeader } from '~/components/layout/page-header'
 import { Avatar } from '~/components/ui/avatar'
 import { BrandIcon } from '~/components/ui/brand-icon'
-import { ButtonLink } from '~/components/ui/button-link'
 import { SITE } from '~/config/site'
 import { isAdmin, requireUser } from '~/features/auth/session.server'
 import { listManagedServers } from '~/features/servers/manager.server'
@@ -63,7 +62,7 @@ const STEAM_NOTICES: Record<string, Notice> = {
 }
 
 export default function ProfilePage({ loaderData }: Route.ComponentProps) {
-  const { discord, steam, roster, managedServers } = loaderData
+  const { discord, steam, roster, managedServers, isAdmin } = loaderData
   const [params] = useSearchParams()
   const notice = params.get('joined')
     ? JOINED
@@ -73,11 +72,11 @@ export default function ProfilePage({ loaderData }: Route.ComponentProps) {
     <>
       <PageHeader title="Профиль" />
 
-      <section className="container mx-auto max-w-3xl space-y-5 px-6 pt-6">
+      <section className="container mx-auto max-w-xl px-6 pt-6">
         {notice && (
           <p
             className={cn(
-              'rounded-xl border px-5 py-3 text-sm',
+              'mb-5 rounded-xl border px-5 py-3 text-sm',
               notice.failed
                 ? 'border-accent/40 bg-accent/10'
                 : 'border-success/40 bg-success/10'
@@ -87,148 +86,128 @@ export default function ProfilePage({ loaderData }: Route.ComponentProps) {
           </p>
         )}
 
-        <Account
-          icon={<BrandIcon icon={siDiscord} className="h-5 w-5 text-discord" />}
-          title="Discord"
-        >
-          <div className="flex items-center gap-4">
+        <article className="overflow-hidden rounded-2xl border border-line bg-surface">
+          <header className="flex items-center gap-5 p-6">
             <Avatar
               src={discord.avatarUrl ?? undefined}
               name={discord.name}
-              size="md"
+              size="lg"
               shape="circle"
             />
-            <div>
-              <p className="font-semibold">{discord.name}</p>
-              <p className="text-muted text-sm">@{discord.username}</p>
-            </div>
-          </div>
-          <p className="mt-4 text-muted text-xs">
-            Ник и аватарка обновляются при каждом входе.
-          </p>
-        </Account>
-
-        <Account
-          icon={<BrandIcon icon={siSteam} className="h-5 w-5" />}
-          title="Steam"
-        >
-          {steam ? (
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <Avatar
-                  src={steam.avatarUrl ?? undefined}
-                  name={steam.name}
-                  size="md"
-                  shape="circle"
-                />
-                <div>
-                  <p className="font-semibold">{steam.name}</p>
-                  {steam.profileUrl && (
-                    <a
-                      href={steam.profileUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-muted text-sm hover:text-accent"
-                    >
-                      Профиль в Steam →
-                    </a>
-                  )}
-                </div>
-              </div>
-              <Link
-                to="/auth/steam"
-                reloadDocument
-                className="text-muted text-sm hover:text-accent"
-              >
-                Привязать другой
-              </Link>
-            </div>
-          ) : (
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <p className="text-muted text-sm">
-                Привяжите аккаунт Steam, на котором будете играть.
+            <div className="min-w-0">
+              <h2 className="truncate font-bold font-display text-xl uppercase">
+                {discord.name}
+              </h2>
+              <p className="mt-1 flex items-center gap-2 text-muted text-sm">
+                <BrandIcon icon={siDiscord} className="text-discord" />@
+                {discord.username}
               </p>
-              <ButtonLink href="/auth/steam" reloadDocument>
-                Привязать Steam
-              </ButtonLink>
             </div>
-          )}
-        </Account>
+          </header>
 
-        <Account title="Команда">
-          {roster ? (
-            <p>
-              <Link
-                to={`/teams/${roster.slug}`}
-                className="font-semibold hover:text-accent"
+          <dl className="divide-y divide-line border-line border-t">
+            <Row label="Steam">
+              {steam ? (
+                <span className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+                  <a
+                    href={steam.profileUrl ?? undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex min-w-0 items-center gap-2 hover:text-accent"
+                  >
+                    <BrandIcon icon={siSteam} />
+                    <span className="truncate">{steam.name}</span>
+                  </a>
+                  <Link
+                    to="/auth/steam"
+                    reloadDocument
+                    className="text-muted text-xs hover:text-white"
+                  >
+                    Сменить
+                  </Link>
+                </span>
+              ) : (
+                <Link
+                  to="/auth/steam"
+                  reloadDocument
+                  className="font-semibold text-accent hover:text-accent-hover"
+                >
+                  Привязать Steam →
+                </Link>
+              )}
+            </Row>
+
+            <Row label="Команда">
+              {roster ? (
+                <span>
+                  <Link
+                    to={`/teams/${roster.slug}`}
+                    className="font-semibold hover:text-accent"
+                  >
+                    {roster.team}
+                  </Link>
+                  <span className="block text-muted text-xs">
+                    {positionWithNumber(roster.position)}
+                    {roster.captain && ' · Капитан'} · {roster.server}
+                  </span>
+                </span>
+              ) : (
+                <span className="text-muted text-sm">
+                  Пока не в составе — ссылку-приглашение даёт менеджер команды
+                  вашего сервера.
+                </span>
+              )}
+            </Row>
+
+            {managedServers.length > 0 && (
+              <Row label="Менеджер">
+                <Link to="/manage" className="font-semibold hover:text-accent">
+                  {managedServers.join(', ')} →
+                </Link>
+              </Row>
+            )}
+
+            {isAdmin && (
+              <Row label="Организатор">
+                <Link to="/admin" className="font-semibold hover:text-accent">
+                  Админка →
+                </Link>
+              </Row>
+            )}
+          </dl>
+
+          <footer className="flex items-center justify-between gap-4 border-line border-t px-6 py-4">
+            <p className="text-muted text-xs">
+              Ник и аватарка обновляются при каждом входе.
+            </p>
+            <Form method="post" action="/auth/logout">
+              <button
+                type="submit"
+                className="cursor-pointer text-muted text-sm hover:text-white"
               >
-                {roster.team}
-              </Link>{' '}
-              <span className="text-muted">
-                · {roster.server} · {positionWithNumber(roster.position)}
-                {roster.captain && ' · Капитан'}
-              </span>
-            </p>
-          ) : (
-            <p className="text-muted text-sm">
-              Вы пока не в составе. Попросите ссылку-приглашение у менеджера
-              команды своего сервера.
-            </p>
-          )}
-        </Account>
-
-        {managedServers.length > 0 && (
-          <Account title="Менеджер команды">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="font-semibold">{managedServers.join(', ')}</p>
-                <p className="mt-1 text-muted text-sm">
-                  Соберите состав и раздайте игрокам приглашения.
-                </p>
-              </div>
-              <ButtonLink href="/manage">Управлять командой</ButtonLink>
-            </div>
-          </Account>
-        )}
-
-        <div className="flex items-center justify-between pt-4">
-          {loaderData.isAdmin ? (
-            <Link to="/admin" className="text-accent text-sm">
-              Админка →
-            </Link>
-          ) : (
-            <span />
-          )}
-          <Form method="post" action="/auth/logout">
-            <button
-              type="submit"
-              className="cursor-pointer text-muted text-sm hover:text-white"
-            >
-              Выйти
-            </button>
-          </Form>
-        </div>
+                Выйти
+              </button>
+            </Form>
+          </footer>
+        </article>
       </section>
     </>
   )
 }
 
-function Account({
-  icon,
-  title,
+function Row({
+  label,
   children,
 }: {
-  icon?: React.ReactNode
-  title: string
+  label: string
   children: React.ReactNode
 }) {
   return (
-    <div className="rounded-2xl border border-line bg-surface p-6">
-      <p className="mb-5 flex items-center gap-2 text-muted text-xs uppercase tracking-[0.2em]">
-        {icon}
-        {title}
-      </p>
-      {children}
+    <div className="grid grid-cols-[6.5rem_minmax(0,1fr)] items-center gap-4 px-6 py-4 sm:grid-cols-[8rem_minmax(0,1fr)]">
+      <dt className="font-mono text-[11px] text-muted uppercase tracking-[0.2em]">
+        {label}
+      </dt>
+      <dd className="min-w-0">{children}</dd>
     </div>
   )
 }
