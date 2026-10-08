@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { BrandIcon } from '~/components/ui/brand-icon'
-import { DotaMark } from '~/components/ui/dota-mark'
+import { ViperrMark } from '~/components/ui/viperr-mark'
 import { NAV_LINKS, SITE, SOCIALS } from '~/config/site'
 
 const linkClass = 'text-muted transition-colors hover:text-white'
@@ -14,18 +14,20 @@ export function Footer() {
   return (
     <footer className="relative mt-32 overflow-hidden bg-gradient-to-b from-bg via-footer-glow to-footer-end px-6 sm:px-10 lg:px-14">
       <div className="flex flex-col items-center gap-6 pt-8 text-center sm:flex-row sm:justify-between sm:text-left">
-        <div className="flex items-center gap-3">
-          <DotaMark className="h-8 w-8" />
-          <div>
-            <Link
-              to="/"
-              className="font-bold font-display text-sm uppercase tracking-wide transition-colors hover:text-accent"
-            >
+        <Link
+          to="/"
+          className="flex items-center gap-3 transition-opacity hover:opacity-80"
+        >
+          <ViperrMark className="h-7 w-8" />
+          <span>
+            <span className="block font-bold font-display text-sm uppercase tracking-wide">
               {SITE.name}
-            </Link>
-            <p className="mt-0.5 text-muted text-xs">© {SITE.established}</p>
-          </div>
-        </div>
+            </span>
+            <span className="block text-muted text-xs">
+              © {SITE.established}
+            </span>
+          </span>
+        </Link>
 
         <nav
           aria-label="Ссылки подвала"
@@ -51,11 +53,17 @@ export function Footer() {
         </nav>
       </div>
 
+      <p className="mx-auto mt-8 max-w-3xl text-center text-[11px] text-white/45 leading-relaxed sm:mx-0 sm:text-left">
+        {SITE.name} и турнир не связаны с Valve Corporation и Discord Inc. и не
+        одобрены ими. Dota 2 — товарный знак Valve Corporation, Discord —
+        товарный знак Discord Inc.
+      </p>
+
       <p
         aria-hidden
-        className="mx-auto mt-16 -mb-[0.06em] w-fit -skew-x-12 select-none whitespace-nowrap px-[0.08em] font-black font-display text-[calc((100vw-3rem)/6.8)] text-metal leading-none sm:text-[calc((100vw-5rem)/6.8)] lg:mt-24 lg:text-[calc((100vw-7rem)/6.8)]"
+        className="mx-auto mt-14 -mb-[0.06em] w-fit -skew-x-12 select-none whitespace-nowrap px-[0.08em] font-black font-display text-[calc((100vw-3rem)/7)] text-metal leading-none sm:text-[calc((100vw-5rem)/7)] lg:mt-20 lg:text-[calc((100vw-7rem)/7)]"
       >
-        SERVER TI
+        DOTA CUP
       </p>
     </footer>
   )
