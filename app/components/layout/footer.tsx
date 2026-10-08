@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { BrandIcon } from '~/components/ui/brand-icon'
-import { ViperrMark } from '~/components/ui/viperr-mark'
+import { DotaMark } from '~/components/ui/dota-mark'
 import { NAV_LINKS, SITE, SOCIALS } from '~/config/site'
 
 const linkClass = 'text-muted transition-colors hover:text-white'
@@ -18,7 +18,7 @@ export function Footer() {
           to="/"
           className="flex items-center gap-3 transition-opacity hover:opacity-80"
         >
-          <ViperrMark className="h-7 w-8" />
+          <DotaMark className="h-8 w-8" />
           <span>
             <span className="block font-bold font-display text-sm uppercase tracking-wide">
               {SITE.name}
@@ -55,8 +55,7 @@ export function Footer() {
 
       <p className="mx-auto mt-8 max-w-3xl text-center text-[11px] text-white/45 leading-relaxed sm:mx-0 sm:text-left">
         {SITE.name} и турнир не связаны с Valve Corporation и Discord Inc. и не
-        одобрены ими. Dota 2 — товарный знак Valve Corporation, Discord —
-        товарный знак Discord Inc.
+        одобрены ими.
       </p>
 
       <p
