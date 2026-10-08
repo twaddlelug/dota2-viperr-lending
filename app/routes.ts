@@ -42,6 +42,7 @@ export default [
     route('bracket', 'routes/site/bracket.tsx'),
     route('teams', 'routes/site/teams.tsx'),
     route('teams/:slug', 'routes/site/team.tsx'),
+    route('partners', 'routes/site/partners.tsx'),
     ...(isDbBuild ? accountRoutes : []),
   ]),
 

@@ -23,7 +23,7 @@ Every Discord community fields one team of its best players, and the teams play 
 
 ## Features
 
-- **Website**: landing page, playoff bracket (upper and lower bracket, best-of-five grand final), team list and team profiles.
+- **Website**: landing page, playoff bracket (upper and lower bracket, best-of-five grand final), team list, team profiles and the partner servers.
 - **Admin panel** at `/admin`: servers, teams, rosters with personal invite links, seeding and match results. Site texts live in the code.
 - **Team managers** at `/manage`: organizers attach a Discord ID to each server, and that person creates the server's team, fills the positions and hands out invite links. Seeding and results stay with the organizers.
 - **Players** sign in with Discord and link their Steam account; nicknames and avatars are pulled in automatically.

@@ -22,6 +22,7 @@ export const NAV_LINKS: NavItem[] = [
   { label: 'Главная', href: '/' },
   { label: 'Сетка', href: '/bracket' },
   { label: 'Команды', href: '/teams' },
+  { label: 'Партнеры', href: '/partners' },
 ]
 
 export const SOCIALS = [
