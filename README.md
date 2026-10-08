@@ -23,7 +23,7 @@ Every Discord community fields one team of its best players, and the teams play 
 
 ## Features
 
-- **Website**: landing page, playoff bracket (upper and lower bracket, best-of-five grand final), team list, team profiles and the partner servers.
+- **Website**: landing page, playoff bracket (upper and lower bracket, best-of-five grand final), team list, team profiles and the partner servers, with `sitemap.xml` and `robots.txt` for search engines.
 - **Admin panel** at `/admin`: servers, teams, rosters with personal invite links, seeding and match results. Site texts live in the code.
 - **Team managers** at `/manage`: organizers attach a Discord ID to each server, and that person creates the server's team, fills the positions, hands out invite links and uploads the team banner. Seeding and results stay with the organizers.
 - **Players** sign in with Discord and link their Steam account; nicknames and avatars are pulled in automatically.
@@ -58,7 +58,7 @@ The site runs at http://localhost:5173.
 | `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` | Discord application used for sign-in |
 | `ADMIN_DISCORD_IDS` | Comma-separated Discord IDs of the administrators |
 | `STEAM_API_KEY` | Optional: Steam nicknames and avatars instead of SteamIDs |
-| `PUBLIC_URL` | Public address of the site, required behind a reverse proxy |
+| `PUBLIC_URL` | Public address of the site, required behind a reverse proxy; also used for links in `sitemap.xml`. On Vercel the production domain is picked up automatically |
 | `DEV_LOGIN_DISCORD_ID` | Development only: sign in without Discord |
 
 ### Scripts

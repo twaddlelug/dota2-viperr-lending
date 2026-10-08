@@ -11,6 +11,8 @@ export default (isDbBuild
         '/bracket',
         '/teams',
         '/partners',
+        '/sitemap.xml',
+        '/robots.txt',
         ...DEMO_TEAMS.map(team => `/teams/${team.slug}`),
       ],
     }) satisfies Config

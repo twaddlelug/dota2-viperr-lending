@@ -47,5 +47,8 @@ export default [
     ...(isDbBuild ? accountRoutes : []),
   ]),
 
+  route('sitemap.xml', 'routes/sitemap.ts'),
+  route('robots.txt', 'routes/robots.ts'),
+
   ...(isDbBuild ? serverRoutes : []),
 ] satisfies RouteConfig

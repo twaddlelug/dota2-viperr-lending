@@ -33,7 +33,8 @@ export const env = {
     return optional('STEAM_API_KEY')
   },
   get publicUrl() {
-    return optional('PUBLIC_URL')
+    const vercelHost = optional('VERCEL_PROJECT_PRODUCTION_URL')
+    return optional('PUBLIC_URL') ?? (vercelHost && `https://${vercelHost}`)
   },
   get devLoginDiscordId() {
     return optional('DEV_LOGIN_DISCORD_ID')
