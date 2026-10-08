@@ -56,29 +56,39 @@ export default function App() {
   return <Outlet />
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let title = 'Ошибка'
-  let details = 'Что-то пошло не так.'
+const STATUS_MESSAGES: Record<number, string> = {
+  403: 'Сюда нужен доступ.',
+  404: 'Такой страницы нет.',
+}
 
-  if (isRouteErrorResponse(error)) {
-    if (error.status === 404) title = '404'
-    if (error.status === 403) title = '403'
-    const ownMessage =
-      typeof error.data === 'string' && !error.data.startsWith('Error:')
-        ? error.data
-        : null
-    details =
-      ownMessage ||
-      (error.status === 404 ? 'Такой страницы нет.' : error.statusText) ||
-      details
-  } else if (import.meta.env.DEV && error instanceof Error) {
-    details = error.message
-  }
+const FALLBACK_MESSAGE =
+  'Что-то сломалось. Обновите страницу или загляните чуть позже.'
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const response = isRouteErrorResponse(error) ? error : null
+  const status = response?.status ?? 500
+  const ownMessage =
+    typeof response?.data === 'string' && !response.data.startsWith('Error:')
+      ? response.data
+      : null
+  const message = ownMessage ?? STATUS_MESSAGES[status] ?? FALLBACK_MESSAGE
+  const technical =
+    import.meta.env.DEV && error instanceof Error ? error.message.trim() : null
 
   return (
-    <PageHeader title={title}>
-      <Rise delay={0.3} className="mt-6 flex flex-col items-center gap-10">
-        <p className="max-w-xl px-6 font-mono text-sm opacity-80">{details}</p>
+    <PageHeader title={String(status)}>
+      <Rise
+        delay={0.3}
+        className="mt-6 flex w-full flex-col items-center gap-8 px-6"
+      >
+        <p className="max-w-md text-balance text-base text-white/80 leading-relaxed">
+          {message}
+        </p>
+        {technical && (
+          <pre className="max-h-56 w-full max-w-2xl overflow-auto whitespace-pre-wrap break-words rounded-xl border border-white/10 bg-black/50 p-4 text-left font-mono text-white/60 text-xs leading-relaxed">
+            {technical}
+          </pre>
+        )}
         <ButtonLink href="/">На главную</ButtonLink>
       </Rise>
     </PageHeader>
