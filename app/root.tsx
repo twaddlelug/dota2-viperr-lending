@@ -68,7 +68,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   const response = isRouteErrorResponse(error) ? error : null
   const status = response?.status ?? 500
   const ownMessage =
-    typeof response?.data === 'string' && !response.data.startsWith('Error:')
+    typeof response?.data === 'string' &&
+    !response.data.startsWith('Error:') &&
+    !response.data.trimStart().startsWith('<')
       ? response.data
       : null
   const message = ownMessage ?? STATUS_MESSAGES[status] ?? FALLBACK_MESSAGE

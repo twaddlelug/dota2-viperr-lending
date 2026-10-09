@@ -8,7 +8,9 @@ export function ErrorPanel({
   back: { href: string; label: string }
 }) {
   const message =
-    isRouteErrorResponse(error) && typeof error.data === 'string'
+    isRouteErrorResponse(error) &&
+    typeof error.data === 'string' &&
+    !error.data.trimStart().startsWith('<')
       ? error.data
       : import.meta.env.DEV && error instanceof Error
         ? error.message
