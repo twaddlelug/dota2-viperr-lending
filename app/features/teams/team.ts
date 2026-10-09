@@ -1,3 +1,5 @@
+import type { Banner } from './banner'
+
 export type Server = {
   id: string
   name: string
@@ -29,7 +31,7 @@ export type Team = {
   name: string
   tag: string
   logoUrl?: string
-  bannerUrl?: string
+  banner?: Banner
   server: Server
   seed?: number
   players: Player[]

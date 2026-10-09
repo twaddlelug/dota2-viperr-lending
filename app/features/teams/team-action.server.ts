@@ -1,6 +1,6 @@
 import { type ActionResult, fail } from '~/lib/action-result'
 import { optionalInt, text } from '~/lib/form-data'
-import { removeBanner, saveBanner } from './banner.server'
+import { removeBanner } from './banner.server'
 import {
   addPlayer,
   deletePlayer,
@@ -34,8 +34,6 @@ export async function teamAction(
       return unlinkPlayer(teamId, playerId)
     case 'deletePlayer':
       return deletePlayer(teamId, playerId)
-    case 'uploadBanner':
-      return saveBanner(teamId, form.get('banner'))
     case 'removeBanner':
       return removeBanner(teamId)
     default:

@@ -11,6 +11,7 @@ import {
 import { getBracket } from '~/features/bracket/bracket.server'
 import { MatchCard } from '~/features/bracket/match-card'
 import { StandingLabel } from '~/features/bracket/standing-label'
+import { BannerMedia } from '~/features/teams/banner-media'
 import { RosterList } from '~/features/teams/roster-list'
 import type { Team } from '~/features/teams/team'
 import { getTeam } from '~/features/teams/teams.server'
@@ -49,7 +50,14 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
     <>
       <PageHeader
         title={team.name}
-        background={team.bannerUrl}
+        background={
+          team.banner && (
+            <BannerMedia
+              banner={team.banner}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )
+        }
         media={
           <Avatar
             src={team.logoUrl}

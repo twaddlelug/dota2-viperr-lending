@@ -12,12 +12,12 @@ export function PageHeader({
 }: {
   title: string
   media?: React.ReactNode
-  background?: string
+  background?: React.ReactNode
   children?: React.ReactNode
 }) {
   return (
     <header className="p-4 sm:p-10">
-      <Stage image={background} className="pb-12 sm:pb-16">
+      <Stage background={background} className="pb-12 sm:pb-16">
         <div className="mt-7 lg:mt-10">
           <Navbar links={NAV_LINKS} />
         </div>

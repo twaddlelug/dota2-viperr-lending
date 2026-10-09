@@ -44,3 +44,11 @@ export const env = {
 export function siteUrl(request: Request, path: string) {
   return new URL(path, env.publicUrl ?? new URL(request.url).origin).toString()
 }
+
+export function isOwnOrigin(request: Request) {
+  const origin = request.headers.get('origin')
+  return (
+    origin === new URL(siteUrl(request, '/')).origin ||
+    origin === new URL(request.url).origin
+  )
+}

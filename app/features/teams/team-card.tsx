@@ -13,6 +13,9 @@ export function TeamCard({
   badge?: string
   eliminated?: boolean
 }) {
+  const cover =
+    team.banner?.kind === 'video' ? team.banner.posterUrl : team.banner?.url
+
   return (
     <Link
       to={`/teams/${team.slug}`}
@@ -22,10 +25,10 @@ export function TeamCard({
           'opacity-60 grayscale hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:grayscale-0'
       )}
     >
-      {team.bannerUrl && (
+      {cover && (
         <>
           <img
-            src={team.bannerUrl}
+            src={cover}
             alt=""
             loading="lazy"
             className="absolute inset-0 -z-10 h-full w-full object-cover opacity-35 transition-opacity duration-300 group-hover:opacity-60 group-focus-visible:opacity-60"

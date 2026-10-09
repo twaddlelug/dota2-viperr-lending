@@ -6,12 +6,12 @@ import { cn } from '~/lib/cn'
 export function Stage({
   children,
   overlay,
-  image,
+  background,
   className,
 }: {
   children: React.ReactNode
   overlay?: React.ReactNode
-  image?: string
+  background?: React.ReactNode
   className?: string
 }) {
   const [auroraShown, setAuroraShown] = useState(auroraIsWarm)
@@ -22,13 +22,9 @@ export function Stage({
         className
       )}
     >
-      {image ? (
+      {background ? (
         <>
-          <img
-            src={image}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          {background}
           <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
         </>
       ) : (

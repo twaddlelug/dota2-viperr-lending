@@ -22,6 +22,7 @@ const serverRoutes = [
   ]),
   route('media/*', 'routes/media.ts'),
   route('media/banners/:teamId', 'routes/team-banner.ts'),
+  route('media/banners/:teamId/poster', 'routes/team-banner-poster.ts'),
 
   route('admin', 'routes/admin/layout.tsx', [
     index('routes/admin/overview.tsx'),

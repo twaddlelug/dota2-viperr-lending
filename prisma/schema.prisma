@@ -55,6 +55,8 @@ model TeamBanner {
   team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   data        Bytes
   contentType String
+  poster      Bytes?
+  posterType  String?
   updatedAt   DateTime @updatedAt
 }
 
