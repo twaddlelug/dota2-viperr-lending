@@ -77,9 +77,20 @@ describe('toBanner', () => {
       })
     ).toEqual({
       kind: 'image',
-      url: '/media/banners/team1?v=1791460800000',
+      url: '/media/covers/team1?v=1791460800000',
       posterUrl: undefined,
     })
+  })
+
+  it('keeps ad blocker trigger words out of the addresses, since RU AdList blocks /media/banners/*', () => {
+    const { url, posterUrl } = toBanner('team1', {
+      updatedAt,
+      contentType: 'video/mp4',
+      posterType: 'image/jpeg',
+    })
+    for (const address of [url, posterUrl]) {
+      expect(address).not.toMatch(/banner|\/ads?\/|advert|promo/i)
+    }
   })
 
   it('points videos to their poster frame', () => {
@@ -91,8 +102,8 @@ describe('toBanner', () => {
       })
     ).toEqual({
       kind: 'video',
-      url: '/media/banners/team1?v=1791460800000',
-      posterUrl: '/media/banners/team1/poster?v=1791460800000',
+      url: '/media/covers/team1?v=1791460800000',
+      posterUrl: '/media/covers/team1/poster?v=1791460800000',
     })
   })
 })

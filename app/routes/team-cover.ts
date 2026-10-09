@@ -7,7 +7,7 @@ import {
 } from '~/features/teams/banner.server'
 import { fail } from '~/lib/action-result'
 import { isOwnOrigin } from '~/lib/env.server'
-import type { Route } from './+types/team-banner'
+import type { Route } from './+types/team-cover'
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   return bannerResponse(request, await getBannerFile(params.teamId, 'file'))

@@ -21,8 +21,12 @@ const serverRoutes = [
     route('logout', 'routes/auth/logout.ts'),
   ]),
   route('media/*', 'routes/media.ts'),
-  route('media/banners/:teamId', 'routes/team-banner.ts'),
-  route('media/banners/:teamId/poster', 'routes/team-banner-poster.ts'),
+  route('media/covers/:teamId', 'routes/team-cover.ts'),
+  route('media/covers/:teamId/poster', 'routes/team-cover-poster.ts'),
+  route(
+    '.well-known/appspecific/com.chrome.devtools.json',
+    'routes/devtools-workspace.ts'
+  ),
 
   route('admin', 'routes/admin/layout.tsx', [
     index('routes/admin/overview.tsx'),

@@ -18,9 +18,9 @@ export function toBanner(
   const version = `v=${stored.updatedAt.getTime()}`
   return {
     kind: stored.contentType.startsWith('video/') ? 'video' : 'image',
-    url: `/media/banners/${teamId}?${version}`,
+    url: `/media/covers/${teamId}?${version}`,
     posterUrl: stored.posterType
-      ? `/media/banners/${teamId}/poster?${version}`
+      ? `/media/covers/${teamId}/poster?${version}`
       : undefined,
   }
 }

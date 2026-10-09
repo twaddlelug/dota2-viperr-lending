@@ -50,7 +50,7 @@ export async function uploadBanner(
       part: String(part),
       parts: String(parts),
     })
-    const response = await fetch(`/media/banners/${teamId}?${query}`, {
+    const response = await fetch(`/media/covers/${teamId}?${query}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/octet-stream' },
       body,
